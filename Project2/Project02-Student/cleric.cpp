@@ -18,7 +18,34 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Cleric characteristic
  */
+const int DEFAULT_HEALTH = 50;
+const Weapon STARTER_WEAPON{.name="Simple Wand",.cost=100.,.damage=5.};
+const int DEFAULT_CHARACTERISTIC = 10;
 
+// <rant>
+// the cleric *has* an inventory, it isn't AN inventory...whatever...
+// Also the fact that data is duplicated with the whole weapon inventory thing.. 
+// if weapon is updated how does the inventory get updated!! this is a horrible design
+// </rant>
+Cleric::Cleric() : Character{}, Inventory{}
+{
+	willpower = DEFAULT_CHARACTERISTIC;
+	weapon = STARTER_WEAPON;
+	health = DEFAULT_HEALTH;
+	AddToInventory(weapon);
+}
+
+Cleric::Cleric(string characterName, Race characterRace): Character(characterName,characterRace), Inventory{}
+{
+	willpower = DEFAULT_CHARACTERISTIC;
+	weapon = STARTER_WEAPON;
+	health = DEFAULT_HEALTH;
+	AddToInventory(weapon);
+}
+
+// <rant>
+// Why are these .cpp comments in a different order than the .h file? Where is the consistency? Not that it matters really
+// </rant>
 
 /**
  * Status Function
@@ -28,7 +55,9 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
-
+void Cleric::Status() {
+	std::cout << "TODO" << "\n";
+}
 
 /** 
  * Attack Function
@@ -40,6 +69,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
+void Cleric::Attack(Character * enemy) {
+	if(enemy==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+	const int damage = (weapon.damage + (willpower/2));//TODO LOGIC: Is default value in D&D to round down fractions..
+	enemy->TakeDamage(damage);
+	std::cout<<<this->name << " attacks " << enemy->name << " with " << this->weapon.name << " for " << damage << " points" << "\n";
+	//TODO PRINTING: what is the convention here for trailing newlines.
+}
 
 
 
@@ -54,3 +90,11 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
+void Cleric::Heal(Character * target)
+	if(target==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+	const int points = (10+(willpower/2));
+	//TODO LOGIC: Is default value in D&D to round down fractions..
+	target->TakeDamage(points);
+	std::cout<<<this->name << " heals " << enemy->name << " for " << points << " points" << "\n";
+	//TODO PRINTING: what is the convention here for trailing newlines.
+}	
