@@ -1,0 +1,36 @@
+# test_rogue.txt - Test Rogue Class
+
+b
+
+# Testing the creation of a Elf Rogue named Knives
++ r e Knives
+
+# Status of Knives
+s r
+b
+
+# Testing the creation of a Goblin named Pickles
++ g g Pickles
+
+# Status of Pickles
+s g
+b
+
+# The Goblin enemy sneak attacks
+a g s r
+b
+
+# The Goblin enemy regular attacks
+a g a r
+b
+
+# The Rogue regular attacks
+a r a
+b
+
+# The Rogue power attacks
+a r s
+b
+
+- r
+- g
