@@ -2,26 +2,7 @@
  * character.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "character.hpp"
-
-#include <map>
-
-const std::string MISSING_RACE_NAME = "MISSING_NAME";
-const std::map<Race,std::string> race2sring{
-	{Race::HUMAN , RaceStrings[0]},
-	{Race::HUMAN , RaceStrings[1]},
-	{Race::HUMAN , RaceStrings[2]},
-	{Race::HUMAN , RaceStrings[3]},
-	{Race::HUMAN , RaceStrings[4]}
-};
-
-std::string toString(const Race race) {
-	const auto it = race2sring.find(race);
-	if(it==race2sring.end()) {
-		return MISSING_RACE_NAME;
-	} else {
-		return it->second;
-	}
-}
+#include "stuff.h"
 
 // THIS is dumb, this stuff *SHOULD* be in the .h file, but since I can't
 // modify that file, it goes here. >:(
@@ -68,7 +49,7 @@ void Character::AddExp(int amount) {
 	//TODO QUESTION: Can experience be negative? I will assume not for now
 	exp += (amount>0)?amount:0;
 }
-void Character::SetHealth(int h)
+void Character::SetHealth(int h) {
 	//TODO QUESTION: Can health be negative? If given an invalid value should an exception be thrown?
 	health = (h>=0)?h:0;
 }

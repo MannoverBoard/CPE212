@@ -2,6 +2,7 @@
  * cleric.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "cleric.hpp"
+#include "stuff.h"
 
 /**
  * Cleric Class constructor
@@ -19,7 +20,7 @@
  *  Assign a value of 10 for the base Cleric characteristic
  */
 const int DEFAULT_HEALTH = 50;
-const Weapon STARTER_WEAPON{.name="Simple Wand",.cost=100.,.damage=5.};
+const Weapon STARTER_WEAPON{.name="Simple Wand",.damage=5,.cost=100};
 const int DEFAULT_CHARACTERISTIC = 10;
 
 // <rant>
@@ -27,20 +28,13 @@ const int DEFAULT_CHARACTERISTIC = 10;
 // Also the fact that data is duplicated with the whole weapon inventory thing.. 
 // if weapon is updated how does the inventory get updated!! this is a horrible design
 // </rant>
-Cleric::Cleric() : Character{}, Inventory{}
-{
-	willpower = DEFAULT_CHARACTERISTIC;
-	weapon = STARTER_WEAPON;
-	health = DEFAULT_HEALTH;
-	AddToInventory(weapon);
-}
-
 Cleric::Cleric(string characterName, Race characterRace): Character(characterName,characterRace), Inventory{}
 {
+	Weapon my_weapon = STARTER_WEAPON;
 	willpower = DEFAULT_CHARACTERISTIC;
-	weapon = STARTER_WEAPON;
-	health = DEFAULT_HEALTH;
-	AddToInventory(weapon);
+	SetHealth(DEFAULT_HEALTH);
+	SetWeapon(my_weapon);
+	AddToInventory(toItem(my_weapon));
 }
 
 // <rant>
@@ -71,9 +65,10 @@ void Cleric::Status() {
  */
 void Cleric::Attack(Character * enemy) {
 	if(enemy==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+	const auto weapon = GetWeapon();
 	const int damage = (weapon.damage + (willpower/2));//TODO LOGIC: Is default value in D&D to round down fractions..
 	enemy->TakeDamage(damage);
-	std::cout<<<this->name << " attacks " << enemy->name << " with " << this->weapon.name << " for " << damage << " points" << "\n";
+	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
 	//TODO PRINTING: what is the convention here for trailing newlines.
 }
 
@@ -90,11 +85,11 @@ void Cleric::Attack(Character * enemy) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
-void Cleric::Heal(Character * target)
+void Cleric::Heal(Character * target) {
 	if(target==nullptr) { return; } //TODO ERROR: Should an error be logged here?
 	const int points = (10+(willpower/2));
 	//TODO LOGIC: Is default value in D&D to round down fractions..
 	target->TakeDamage(points);
-	std::cout<<<this->name << " heals " << enemy->name << " for " << points << " points" << "\n";
+	std::cout<< GetName() << " heals " << target->GetName() << " for " << points << " points" << "\n";
 	//TODO PRINTING: what is the convention here for trailing newlines.
 }	
