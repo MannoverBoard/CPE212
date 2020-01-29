@@ -50,7 +50,7 @@ Cleric::Cleric(string characterName, Race characterRace): Character(characterNam
  *      "Luck: 7"
  */
 void Cleric::Status() {
-	std::cout << "TODO" << "\n";
+  std::cout << "Willpower: " << willpower << "\n";
 }
 
 /** 
@@ -66,7 +66,7 @@ void Cleric::Status() {
 void Cleric::Attack(Character * enemy) {
 	if(enemy==nullptr) { return; } //TODO ERROR: Should an error be logged here?
 	const auto weapon = GetWeapon();
-	const int damage = (weapon.damage + (willpower/2));//TODO LOGIC: Is default value in D&D to round down fractions..
+	const int damage = rounding(weapon.damage + (willpower/2.),RoundingEvent::Player);
 	enemy->TakeDamage(damage);
 	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
 	//TODO PRINTING: what is the convention here for trailing newlines.
@@ -87,9 +87,7 @@ void Cleric::Attack(Character * enemy) {
  */
 void Cleric::Heal(Character * target) {
 	if(target==nullptr) { return; } //TODO ERROR: Should an error be logged here?
-	const int points = (10+(willpower/2));
-	//TODO LOGIC: Is default value in D&D to round down fractions..
+	const int points = rounding(10 + (willpower/2.),RoundingEvent::Player);
 	target->TakeDamage(points);
 	std::cout<< GetName() << " heals " << target->GetName() << " for " << points << " points" << "\n";
-	//TODO PRINTING: what is the convention here for trailing newlines.
 }	

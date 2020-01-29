@@ -2,6 +2,7 @@
  * goblin.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "goblin.hpp"
+#include "stuff.h"
 
 /**
  * Goblin Class constructor
@@ -18,6 +19,18 @@
  *  Add the weapon to the Goblins inventory
  *  Assign a value of 2 for the base Goblin characteristic
  */
+const int DEFAULT_HEALTH = 30;
+const Weapon STARTER_WEAPON{.name="Pointy Stick", .cost=1, .damage=3 };
+const int DEFAULT_CHARACTERISTIC = 2;
+
+Goblin::Goblin(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+{
+	Weapon my_weapon = STARTER_WEAPON;
+	attack = DEFAULT_CHARACTERISTIC;
+	SetHealth(DEFAULT_HEALTH);
+	SetWeapon(my_weapon);
+	AddToInventory(toItem(my_weapon));
+}
 
 /**
  * Attack Function
@@ -29,6 +42,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
+void Goblin::Attack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + (attack/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+}
 
 /**
  * Sneak Attack Function
@@ -40,6 +60,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
+void Goblin::SneakAttack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + 20 + (attack/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " Sneak Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
+}
 
 /**
  * Status Function
@@ -49,3 +76,8 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+void Goblin::Status() {
+  std::cout << "Attack: " << attack << "\n";
+}
+
+

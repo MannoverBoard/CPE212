@@ -2,6 +2,7 @@
  * warrior.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "warrior.hpp"
+#include "stuff.h"
 
 /**
  * Warrior Class constructor
@@ -18,6 +19,18 @@
  *  Add the weapon to the Warriors inventory
  *  Assign a value of 10 for the base Warrior characteristic
  */
+const int DEFAULT_HEALTH = 150;
+const Weapon STARTER_WEAPON{.name="Starter Longsword", .cost=100, .damage=10 };
+const int DEFAULT_CHARACTERISTIC = 10;
+
+Warrior::Warrior(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+{
+	Weapon my_weapon = STARTER_WEAPON;
+	strength = DEFAULT_CHARACTERISTIC;
+	SetHealth(DEFAULT_HEALTH);
+	SetWeapon(my_weapon);
+	AddToInventory(toItem(my_weapon));
+}
 
 /**
  * Public method of Warrior that attacks an enemy Character
@@ -28,6 +41,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
+void Warrior::Attack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + (strength/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+}
 
 /**
  * Public method of Warrior that deals a Power Attack to a target Character
@@ -38,6 +58,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
+void Warrior::PowerAttack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(GetHealth()/100.*(weapon.damage + (strength/2.)),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " Power Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
+}
 
 /**
  * Public method Status that prints out the Status of the Warrior
@@ -46,3 +73,10 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+void Warrior::Status() {
+  std::cout << "Strength: " << strength << "\n";
+}
+
+
+
+

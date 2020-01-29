@@ -18,7 +18,7 @@ public:
      * @extends This constructor extends the base Character constructor
      * @attention Follow these instructions:
      *  Mage starts with 50 health
-     *  Assign the starter weapon for the Cleric
+     *  Assign the starter weapon for the Mage
      *      Weapon
      *         name : "Simple Staff"
      *         cost : 100
@@ -48,8 +48,8 @@ public:
      */
     void Fireball(Character * target);
     /**
-     * Public method Status that prints out the Status of the Cleric
-     * @attention You MUST print out the local Cleric variables.
+     * Public method Status that prints out the Status of the Mage
+     * @attention You MUST print out the local Mage variables.
      *  The format for the print must be "PrivateVar: PrivateVal" where the name of the private variable is capitalized
      * @example For the private variable luck which is set to 7 you would print the following
      *      "Luck: 7"

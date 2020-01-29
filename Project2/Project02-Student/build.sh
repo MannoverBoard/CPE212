@@ -1,3 +1,3 @@
 #!/bin/bash
 
-g++ *.cpp -o a.out
+g++ *.cpp -o a.out -std=c++14
