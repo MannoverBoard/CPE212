@@ -1,3 +1,4 @@
 #!/bin/bash
 
-g++ *.cpp -o a.out -std=c++14
+g++ -std=c++14 -c *.cpp
+g++ *.o -o a.out
