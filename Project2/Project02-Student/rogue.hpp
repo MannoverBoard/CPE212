@@ -17,13 +17,13 @@ public:
      * @param characterRace The race of the character being created. This is a enum value.
      * @extends This constructor extends the base Character constructor
      * @attention Follow these instructions:
-     *  Cleric starts with 100 health
-     *  Assign the starter weapon for the Cleric
+     *  Rogue starts with 100 health
+     *  Assign the starter weapon for the Rogue
      *      Weapon
      *         name : "Starter Daggers"
      *         cost : 100
      *         damage : 5
-     *  Add the weapon to the Clerics inventory
+     *  Add the weapon to the Rogues inventory
      *  Assign a value of 10 for the base Rogue characteristic
      */
     Rogue(string characterName, Race characterRace);
