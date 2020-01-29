@@ -1,5 +1,30 @@
 #include "stuff.h"
 #include <cmath>
+#include <sstream>
+
+#define ALL_MACRO_DO_CALLBACK(callback,...) \
+  EVAL(callback(RoundingRule ,__VA_ARGS__)) \
+  EVAL(callback(RoundingEvent,__VA_ARGS__)) 
+
+#define FOO(NAME,VALUE,ENUM_NAME,...) case ENUM_NAME::NAME: return #NAME; break;
+#define ENUM_TO_STRING(NAME,...)          \
+std::string toString(const NAME& value) { \
+  switch(value) {                         \
+    GET_MACRO_MACRO(NAME)(EAT,FOO,NAME)   \
+  }                                       \
+  return "INVALID #NAME";                 \
+}                                         \
+std::ostream& operator<<(std::ostream& os, const NAME& value) { \
+  os << toString(value); return os;                             \
+}
+
+ALL_MACRO_DO_CALLBACK(ENUM_TO_STRING)
+#undef FOO
+#undef ENUM_TO_STRING
+
+#undef ALL_MACRO_DO_CALLBACK
+#undef MACRO_RoundingEvent
+#undef MACRO_RoundingRule
 
 std::string toString(const Type& type) {
   switch(type) {
@@ -26,6 +51,12 @@ std::string toString(const Race race) {
 Item toItem(const Weapon& weapon) {
 	return Item{.name = weapon.name,.value = static_cast<decltype(Item::value)>(weapon.cost), .type = WEAPON };
 };
+
+std::string toString(const Item& item) {
+  std::ostringstream oss;
+  oss << item.name << " Value: " << item.value;
+  return oss.str();
+}
 
 double rounding(const double value,const RoundingEvent event) {
   //implements game-wide rounding logic

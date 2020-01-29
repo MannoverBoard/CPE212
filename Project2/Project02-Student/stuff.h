@@ -8,7 +8,6 @@
 #include "inventory.hpp"
 #include "macro.h"
 
-
 #define MACRO_RoundingRule(getParametersCallback,getMemberCallback,...) \
   EVAL(getParametersCallback(EMPTY, __VA_ARGS__)) \
   EVAL(getMemberCallback(AlwaysRoundDown,EMPTY, __VA_ARGS__)) \
@@ -35,25 +34,14 @@ ALL_MACRO_DO_CALLBACK(ENUM_DEFINE)
 #undef ENUM_DEFINE
 #undef FOO
 
-#define FOO(NAME,VALUE,ENUM_NAME,...) case ENUM_NAME::NAME: return #NAME; break;
 #define ENUM_TO_STRING(NAME,...)          \
-std::string toString(const NAME& value) { \
-  switch(value) {                         \
-    GET_MACRO_MACRO(NAME)(EAT,FOO,NAME)   \
-  }                                       \
-  return "INVALID #NAME";                 \
-}                                         \
-std::ostream& operator<<(std::ostream& os, const NAME& value) { \
-  os << toString(value); return os;                             \
-}
+std::string toString(const NAME& value);  \
+std::ostream& operator<<(std::ostream& os, const NAME& value);
 
 ALL_MACRO_DO_CALLBACK(ENUM_TO_STRING)
-#undef FOO
 #undef ENUM_TO_STRING
 
 #undef ALL_MACRO_DO_CALLBACK
-#undef MACRO_RoundingEvent
-#undef MACRO_RoundingRule
   
 template<typename T,size_t N>
 constexpr size_t num_elements(const T (&arr)[N]) { return N; } 
