@@ -39,7 +39,9 @@ int Character::GetHealth() const {
 
 // Implement the Transformers here
 void Character::AddExp(int amount) {
-    exp = exp + amount;
+    if(exp > 0) {
+        exp = exp + amount;
+    }
 }
 void Character::SetHealth(int h) {
     health = h;
