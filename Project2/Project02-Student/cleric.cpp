@@ -18,7 +18,10 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Cleric characteristic
  */
+Cleric::Cleric(string characterName, Race characterRace) : Character::Character(characterName, characterRace) 
+{
 
+}
 
 /**
  * Status Function
