@@ -51,6 +51,18 @@ void Character::SetJob(string j) {
     job = j;
 }
 
+void Character::SetWeapon(Weapon w) {
+    weapon = w;
+}
+
+void Character::Status() {
+
+}
+
+void Character::Attack(Character * taget) {
+    
+}
+
 /**
  * Public method TakeDamage
  * @param damage The amount of damage taken by the Character
