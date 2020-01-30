@@ -45,11 +45,8 @@ void Character::SetHealth(int h) {
     health = h;
 }
 
-void SetJob(string j) {
+void Character::SetJob(string j) {
     job = j;
-}
-void TakeDamage(int h) {
-    health = health - h;
 }
 
 /**
