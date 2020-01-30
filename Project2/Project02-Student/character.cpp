@@ -24,7 +24,7 @@ int Character::GetLevel() const {
     return level;
 }
 Weapon Character::GetWeapon() const {
-    return weapon
+    return weapon;
 }
 int Character::GetExp() const {
     return exp;
@@ -53,14 +53,6 @@ void Character::SetJob(string j) {
 
 void Character::SetWeapon(Weapon w) {
     weapon = w;
-}
-
-void Character::Status() {
-
-}
-
-void Character::Attack(Character * taget) {
-    
 }
 
 /**

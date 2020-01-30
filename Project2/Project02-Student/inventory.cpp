@@ -8,15 +8,23 @@
  *  value: 10
  *  type: POTION
  */
-
+Inventory::Inventory() : items(), length(0)
+{
+    
+}
 /**
  * AddToInventory Function
  * Function that adds items to the inventory
  */ 
+void Inventory::AddToInventory(Item i) {
 
+}
 /**
  * ShowInventory Function
  * Function that shows all items in the inventory
  * @attention Make sure that you format the output string as follows:
  *  Item - <Item Name> Value: <Item Value>
  */ 
+void Inventory::ShowInventory() {
+
+}

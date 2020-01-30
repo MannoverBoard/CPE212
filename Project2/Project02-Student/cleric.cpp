@@ -18,8 +18,15 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Cleric characteristic
  */
-Cleric::Cleric(string characterName, Race characterRace) : Character::Character(characterName, characterRace) 
+
+Cleric::Cleric(string characterName, Race characterRace) : 
+    Character::Character(characterName, characterRace), Inventory()
 {
+    // Initializes name and race variables from parent class
+    // Parent constructor must be called in Child class constructor
+    willpower = 10;
+    //Todo add inventory
+
 
 }
 
@@ -31,7 +38,9 @@ Cleric::Cleric(string characterName, Race characterRace) : Character::Character(
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
-
+void Cleric::Status() {
+    // implement
+}
 
 /** 
  * Attack Function
@@ -43,7 +52,9 @@ Cleric::Cleric(string characterName, Race characterRace) : Character::Character(
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
+void Cleric::Attack(Character * target) {
+    //Todo define attack
+}
 
 
 
