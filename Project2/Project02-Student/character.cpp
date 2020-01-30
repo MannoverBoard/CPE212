@@ -4,7 +4,7 @@
 #include "character.hpp"
 // Implement the Constructors here
 Character::Character() : name(""), job(""), weapon(), health(0), level(0), exp(0)  {
-    // using initailizer list to initialize to initialize data members of Character class.
+    // using initailizer list to initialize data members of Character class.
 }
 
 Character::Character(string characterName, Race characterRace) : Character(){
@@ -49,7 +49,7 @@ void SetJob(string j) {
     job = j;
 }
 void TakeDamage(int h) {
-    
+    health = health - h;
 }
 
 /**
