@@ -19,6 +19,22 @@
  *  Assign a value of 2 for the base Goblin characteristic
  */
 
+
+Goblin::Goblin(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory()
+{
+
+    const Weapon Starter_Weapon{.name = "Pointy Stick", .damage = 3, .cost = 1};
+    // Weapon is initialized using an initializer list
+
+    attack = 2;
+
+    SetHealth(30);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = Starter_Weapon.cost, .type = WEAPON});
+}
 /**
  * Attack Function
  * Public method of Goblin that attacks an enemy Character
@@ -30,6 +46,14 @@
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 
+void Goblin::Attack(Character * target) {
+    int damage;
+    damage = GetWeapon().damage + attack/2;
+    target.TakeDamage(damage);
+    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    damage << " damage!"
+}
+
 /**
  * Sneak Attack Function
  * Public method of Goblin that Sneak Attacks a target Character
@@ -40,6 +64,14 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
+void Goblin::SneakAttack(Character * target) {
+    int damage;
+    damage = 20 + attack/2 + GetWeapon().damage;
+    (*target).TakeDamage(damage);
+    cout << GetName(Character) << " Sneak Attacks " << GetName(*target) << " for " <<
+    damage << " damage!"
+}
+}
 
 /**
  * Status Function
@@ -49,3 +81,14 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+
+void Goblin::Status() {
+    Character::Status();
+    cout << "Name: "      << GetName();
+    cout << "Race: "      << GetRace();
+    cout << "Weapon: "    << GetWeapon();
+    cout << "Health: "    << GetHealth();
+    cout << "Level: "     << GetLevel();
+    cout << "Exp: "       << GetExp();
+    cout << "Attack : "   << attack;
+}

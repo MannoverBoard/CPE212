@@ -26,10 +26,13 @@ Cleric::Cleric(string characterName, Race characterRace) :
     // Initializes name and race variables from parent class
     // Parent constructor must be called in Child class constructor
 
-    const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 100, .cost = 5};
+    const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 5, .cost = 100};
     // Weapon is initialized using an initializer list
 
     willpower = 10;
+    
+    SetHealth(50)
+    SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
         .value = Starter_Weapon.cost, .type = WEAPON});
@@ -70,6 +73,8 @@ void Cleric::Attack(Character * target) {
     int damage;
     damage = GetWeapon().damage + willpower/2;
     target.TakeDamage(damage);
+    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    damage << " damage!"
 }
 
 
@@ -87,10 +92,12 @@ void Cleric::Attack(Character * target) {
 void Cleric::Heal(Character * target) {
     if(target==nullptr) { return ; }
     int damage = -(10 + willpower/2);
-    (*target).TakeDamage(damage);   
-    // Setting damage to negative
-    // value allows TakeDamage function
-    // to act as a healing action as
-    // there is no condition that 
-    //damge must be positive.
+    (*target).TakeDamage(damage);
+    // Setting damage to negative value allows TakeDamage function
+    // to act as a healing action as there is no condition that 
+    // damage must be positive.
+
+    cout << GetName(Character) << " heals " << GetName(*target) << " for " <<
+    damage << " points!"; 
+
 }
