@@ -34,7 +34,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Mage::Attack(Character * target) {
-
+    
 }
 /**
  * Public method of Mage that sends a Fireball at an enemy Character
@@ -56,5 +56,5 @@ void Mage::Fireball(Character * target) {
  *      "Luck: 7"
  */
 void Mage::Status() {
-    
+
 }

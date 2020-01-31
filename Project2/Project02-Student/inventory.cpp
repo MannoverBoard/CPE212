@@ -15,7 +15,7 @@ Inventory::Inventory()
     potion.value = 10;
     potion.type = POTION;
     
-    items[0] = potion;
+    Inventory::AddToInventory(potion);
     
 }
 /**
@@ -23,13 +23,12 @@ Inventory::Inventory()
  * Function that adds items to the inventory
  */ 
 void Inventory::AddToInventory(Item i) {
-    if (length > 0 && length < MAX_SLOTS) {
-        items[length] = i;
-        length++;
+    if (length>=MAX_SLOTS) {
+        return;
     }
-    else {
-        cout << "Inventory full" << endl;
-    }
+
+    items[length] = i;
+    length++;
 }
 /**
  * ShowInventory Function

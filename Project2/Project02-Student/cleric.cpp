@@ -19,13 +19,20 @@
  *  Assign a value of 10 for the base Cleric characteristic
  */
 
+
 Cleric::Cleric(string characterName, Race characterRace) : 
     Character(characterName, characterRace), Inventory()
 {
     // Initializes name and race variables from parent class
     // Parent constructor must be called in Child class constructor
+
+    const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 100, .cost = 5};
+    // Weapon is initialized using an initializer list
+
     willpower = 10;
-    //Todo add inventory
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = Starter_Weapon.cost, .type = WEAPON});
 
 
 }
@@ -39,7 +46,14 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    //Todo implement
+    Character::Status();
+    cout << "Name: "      << GetName();
+    cout << "Race: "      << GetRace();
+    cout << "Weapon: "    << GetWeapon;
+    cout << "Health: "    << GetHealth();
+    cout << "Level: "     << GetLevel();
+    cout << "Exp: "       << GetExp();
+    cout << "Willpower: " << willpower;
 }
 
 /** 
@@ -53,7 +67,9 @@ void Cleric::Status() {
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Cleric::Attack(Character * target) {
-    //Todo implement
+    int damage;
+    damage = GetWeapon().damage + willpower/2;
+    target.TakeDamage(damage);
 }
 
 
@@ -69,5 +85,12 @@ void Cleric::Attack(Character * target) {
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
 void Cleric::Heal(Character * target) {
-    //Todo implement
+    if(target==nullptr) { return ; }
+    int damage = -(10 + willpower/2);
+    (*target).TakeDamage(damage);   
+    // Setting damage to negative
+    // value allows TakeDamage function
+    // to act as a healing action as
+    // there is no condition that 
+    //damge must be positive.
 }

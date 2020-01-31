@@ -7,7 +7,8 @@ Character::Character() : name(""), job(""), weapon(), health(0), level(0), exp(0
     // using initailizer list to initialize data members of Character class.
 }
 
-Character::Character(string characterName, Race characterRace) : Character(){
+Character::Character(string characterName, Race characterRace) : 
+            Character(){
     // 
     name = characterName;
     race = characterRace;
