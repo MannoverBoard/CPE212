@@ -2,7 +2,6 @@
  * goblin.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "goblin.hpp"
-
 /**
  * Goblin Class constructor
  * @param characterName The name of the character being created
@@ -50,7 +49,7 @@ void Goblin::Attack(Character * target) {
     if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + attack/2;
     target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
 
@@ -67,11 +66,11 @@ void Goblin::Attack(Character * target) {
 void Goblin::SneakAttack(Character * target) {
     if(target==nullptr) {return;};   // cool kids check pointers
     const int damage = 20 + attack/2 + GetWeapon().damage;
-    (*target).TakeDamage(damage);
-    cout << GetName(Character) << " Sneak Attacks " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " Sneak Attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
-}
+
 
 /**
  * Status Function

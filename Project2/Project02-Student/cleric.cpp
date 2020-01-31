@@ -71,8 +71,8 @@ void Cleric::Status() {
 void Cleric::Attack(Character * target) {
     if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + willpower/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
 
@@ -96,7 +96,7 @@ void Cleric::Heal(Character * target) {
     // to act as a healing action as there is no condition that 
     // damage must be positive.
 
-    cout << GetName(Character) << " heals " << GetName(*target) << " for " <<
-        damage << " points!"; 
+    cout << GetName() << " heals " << target->GetName() << " for " <<
+        -damage << " points!"; 
 
 }

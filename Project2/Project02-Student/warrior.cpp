@@ -45,8 +45,8 @@ Character(characterName, characterRace), Inventory()
 void Warrior::Attack(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = GetWeapon().damage + strength/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
 /**
@@ -61,8 +61,8 @@ void Warrior::Attack(Character * target) {
 void Warrior::PowerAttack(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = (*target).GetHealth()/100 * (GetWeapon().damage + strength/2);
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " Power Attacks " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " Power Attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
 /**

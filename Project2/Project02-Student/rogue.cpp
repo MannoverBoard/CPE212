@@ -45,8 +45,8 @@ Character(characterName, characterRace), Inventory()
 void Rogue::Attack(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = GetWeapon().damage + dexterity/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
         damage << " points!";
 }
 /**
@@ -61,8 +61,8 @@ void Rogue::Attack(Character * target) {
 void Rogue::BackStab(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = GetWeapon().damage + 50 + dexterity/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " Back Stabs " << GetName(*target) << " for " <<
+    target->TakeDamage(damage);
+    cout << GetName() << " Back Stabs " << target->GetName() << " for " <<
         damage << " points!";
 }
 /**
