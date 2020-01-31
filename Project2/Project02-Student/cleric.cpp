@@ -20,7 +20,7 @@
  */
 
 Cleric::Cleric(string characterName, Race characterRace) : 
-    Character::Character(characterName, characterRace), Inventory()
+    Character(characterName, characterRace), Inventory()
 {
     // Initializes name and race variables from parent class
     // Parent constructor must be called in Child class constructor
@@ -39,7 +39,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    // implement
+    //Todo implement
 }
 
 /** 
@@ -53,7 +53,7 @@ void Cleric::Status() {
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Cleric::Attack(Character * target) {
-    //Todo define attack
+    //Todo implement
 }
 
 
@@ -68,3 +68,6 @@ void Cleric::Attack(Character * target) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
+void Cleric::Heal(Character * target) {
+    //Todo implement
+}

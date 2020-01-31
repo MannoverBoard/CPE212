@@ -18,7 +18,12 @@
  *  Add the weapon to the Mage inventory
  *  Assign a value of 10 for the base Mage characteristic
  */
-
+Mage::Mage(string characterName, Race characterRace) :
+Character(characterName, characterRace), Inventory()
+{
+    intelligence = 10;
+    //Todo call methods
+}
 /**
  * Public method of Mage that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -28,7 +33,9 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
+void Mage::Attack(Character * target) {
 
+}
 /**
  * Public method of Mage that sends a Fireball at an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -38,7 +45,9 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
  */
+void Mage::Fireball(Character * target) {
 
+}
 /**
  * Public method Status that prints out the Status of the Cleric
  * @attention You MUST print out the local Cleric variables.
@@ -46,3 +55,6 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+void Mage::Status() {
+    
+}
