@@ -8,8 +8,14 @@
  *  value: 10
  *  type: POTION
  */
-Inventory::Inventory() : items(), length(0)
+Inventory::Inventory()
 {
+    Item potion;
+    potion.name = "Basic Health Potion";
+    potion.value = 10;
+    potion.type = POTION;
+    
+    items[0] = potion;
     
 }
 /**
@@ -17,7 +23,13 @@ Inventory::Inventory() : items(), length(0)
  * Function that adds items to the inventory
  */ 
 void Inventory::AddToInventory(Item i) {
-
+    if (length > 0 && length < MAX_SLOTS) {
+        items[length] = i;
+        length++;
+    }
+    else {
+        cout << "Inventory full" << endl;
+    }
 }
 /**
  * ShowInventory Function
@@ -26,5 +38,9 @@ void Inventory::AddToInventory(Item i) {
  *  Item - <Item Name> Value: <Item Value>
  */ 
 void Inventory::ShowInventory() {
+    for (int index = 0; index < MAX_SLOTS; index++) {
+        cout << "Item - <" << items[index].name <<
+        "> Value: <" << items[index].value << ">\n";
+    }
 
 }
