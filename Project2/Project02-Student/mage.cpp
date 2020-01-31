@@ -22,7 +22,14 @@ Mage::Mage(string characterName, Race characterRace) :
 Character(characterName, characterRace), Inventory()
 {
     intelligence = 10;
-    //Todo call methods
+    const Weapon Starter_Weapon{.name = "Simple Staff", .damage = 5, .cost = 100};
+    // Weapon is initialized using an initializer list
+    
+    SetHealth(50);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = Starter_Weapon.cost, .type = WEAPON});
 }
 /**
  * Public method of Mage that attacks an enemy Character
@@ -34,7 +41,11 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Mage::Attack(Character * target) {
-    
+    if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + intelligence/2;
+    target.TakeDamage(damage);
+    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
+        damage << " points!";
 }
 /**
  * Public method of Mage that sends a Fireball at an enemy Character
@@ -46,7 +57,12 @@ void Mage::Attack(Character * target) {
  *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
  */
 void Mage::Fireball(Character * target) {
-
+    if(target==nullptr) {return;};   // cool kids check pointers
+    const int damage = 10 + GetWeapon().damage + intelligence/2;
+    target->TakeDamage(damage);
+    cout << GetName(Character) << " attacks " << GetName(*target) << " with a Fireball for " <<
+        damage << " points!";
+    
 }
 /**
  * Public method Status that prints out the Status of the Cleric
@@ -56,5 +72,12 @@ void Mage::Fireball(Character * target) {
  *      "Luck: 7"
  */
 void Mage::Status() {
-
+    cout << "Name: "         << GetName();
+    cout << "Race: "         << GetRace();
+    cout << "Weapon: "       << GetWeapon;
+    cout << "Health: "       << GetHealth();
+    cout << "Level: "        << GetLevel();
+    cout << "Exp: "          << GetExp();
+    cout << "Intelligence: " << intelligence;
+}
 }

@@ -30,8 +30,8 @@ Cleric::Cleric(string characterName, Race characterRace) :
     // Weapon is initialized using an initializer list
 
     willpower = 10;
-    
-    SetHealth(50)
+
+    SetHealth(50);
     SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
@@ -49,7 +49,6 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    Character::Status();
     cout << "Name: "      << GetName();
     cout << "Race: "      << GetRace();
     cout << "Weapon: "    << GetWeapon;
@@ -70,11 +69,11 @@ void Cleric::Status() {
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Cleric::Attack(Character * target) {
-    int damage;
-    damage = GetWeapon().damage + willpower/2;
+    if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + willpower/2;
     target.TakeDamage(damage);
     cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
-    damage << " damage!"
+        damage << " points!";
 }
 
 
@@ -90,14 +89,14 @@ void Cleric::Attack(Character * target) {
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
 void Cleric::Heal(Character * target) {
-    if(target==nullptr) { return ; }
-    int damage = -(10 + willpower/2);
-    (*target).TakeDamage(damage);
+    if(target==nullptr) {return;};   // cool kids check pointers
+    const int damage = -(10 + willpower/2);
+    target->TakeDamage(damage);
     // Setting damage to negative value allows TakeDamage function
     // to act as a healing action as there is no condition that 
     // damage must be positive.
 
     cout << GetName(Character) << " heals " << GetName(*target) << " for " <<
-    damage << " points!"; 
+        damage << " points!"; 
 
 }
