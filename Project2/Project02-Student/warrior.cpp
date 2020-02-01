@@ -41,7 +41,7 @@ Warrior::Warrior(string characterName, Race characterRace) :
 
         Weapon Sword;
         Sword.name = "Starter Longsword";
-        Sword.damage = 5;
+        Sword.damage = 10;
         Sword.cost = 100;
 
         Item Start_Weapon;

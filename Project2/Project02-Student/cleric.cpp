@@ -46,7 +46,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
         willpower = 10;
 
         Weapon Wand;
-        Wand.name = "Simple Staff";
+        Wand.name = "Simple Wand";
         Wand.damage = 5;
         Wand.cost = 100;
 

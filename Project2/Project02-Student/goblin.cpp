@@ -42,8 +42,8 @@ Goblin::Goblin(string characterName, Race characterRace) :
 
         Weapon Stick;
         Stick.name = "Pointy Stick";
-        Stick.damage = 5;
-        Stick.cost = 100;
+        Stick.damage = 3;
+        Stick.cost = 1;
 
         Item Start_Weapon;
         Start_Weapon.name = Stick.name;
