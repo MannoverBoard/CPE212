@@ -1,5 +1,6 @@
 #include "project01.hpp"
 
+PROJECT_01_ENUM_MACROS(ENUM_MACRO_DEFINITIONS)
 
 bool LoadImage(const std::string & imageFile, Image image)
 {
