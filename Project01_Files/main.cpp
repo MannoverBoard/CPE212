@@ -9,7 +9,7 @@
 // if a 0 is found int he slot, print a "0"
 // if a -1 is found, print a "-"
 // otherwise, print an "X"
-void Print(const struct Image& image);
+void Print(const Image& image);
 void Bars();
 
 using namespace std;
@@ -34,7 +34,7 @@ int main(int argc, char * const argv[])
         return 1;
     }
 
-    struct Image image;
+    Image image{};
     string line;
     getline(input, line);
 
@@ -113,10 +113,10 @@ int main(int argc, char * const argv[])
 /// DO NOT MODIFY THIS CODE
 
 
-void Print(const struct Image& image) {
-  for(int r = 0; r < arrayLen(image.data); ++r) {
-    for(int c = 0; c < arrayLen(image.data[0]);++c) {
-      switch(image.data[r][c]) {
+void Print(const Image& image) {
+  for(int r = 0; r < arrayLen(image); ++r) {
+    for(int c = 0; c < arrayLen(image[0]);++c) {
+      switch(image[r][c]) {
         case 1:  cout << "*"; break;
         case 0:  cout << "-"; break;
         default: cout << "X"; break;

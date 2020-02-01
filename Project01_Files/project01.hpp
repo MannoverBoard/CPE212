@@ -28,9 +28,8 @@
   EVAL(callback(Rotation,__VA_ARGS__))
 PROJECT_01_ENUM_MACROS(ENUM_MACRO_DECLARATIONS)
 
-struct Image {
-  int data[15][15];
-};
+using Image = int[15][15];
+
 //typedef int Image[MAX_ROWS][MAX_COLS];
 
 
@@ -47,16 +46,16 @@ bool LoadImage(const std::string & imageFile, Image& image);
 // This will flip the matrix according to the direction provided.
 // a value of false is returned when an unknown Flip value is given
 // otherwise a value of true is returned.
-bool Flip(struct Image& image, const Direction d);
+bool Flip(Image& image, const Direction d);
 
 // this will rotate the matrix according to the direction provided.
 // a value of false is returned when an unknown Rotation value is given
 // otherwise a value of true is returned.
-bool Rotate(struct Image& image, const Rotation r);
+bool Rotate(Image& image, const Rotation r);
 
 // this will transpose the image, which flips it across the diagonal.
 // this diagonal goes from the top left to the bottom right.
-void Transpose(struct Image& image);
+void Transpose(Image& image);
 
 
 #endif // end define PROJECT01_HPP
