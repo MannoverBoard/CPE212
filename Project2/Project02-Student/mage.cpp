@@ -18,7 +18,9 @@
  *  Add the weapon to the Mage inventory
  *  Assign a value of 10 for the base Mage characteristic
  */
-Mage::Mage(string characterName, Race characterRace) :
+
+
+/*Mage::Mage(string characterName, Race characterRace) :
 Character(characterName, characterRace), Inventory()
 {
     intelligence = 10;
@@ -31,6 +33,30 @@ Character(characterName, characterRace), Inventory()
     AddToInventory(Item{.name=Starter_Weapon.name,
         .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 }
+*/
+
+Mage::Mage(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory() {
+        intelligence = 10;
+
+        Weapon Staff;
+        Staff.name = "Simple Staff";
+        Staff.damage = 5;
+        Staff.cost = 100;
+
+        Item Start_Weapon;
+        Start_Weapon.name = Staff.name;
+        Start_Weapon.type = WEAPON;
+        Start_Weapon.value = static_cast<float>(Staff.cost);
+
+        SetHealth(50);
+        SetWeapon(Staff);
+
+        AddToInventory(Start_Weapon);
+
+
+    }
+
 /**
  * Public method of Mage that attacks an enemy Character
  * @param enemy Pointer to the enemy Character

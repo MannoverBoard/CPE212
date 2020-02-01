@@ -20,7 +20,7 @@
  */
 
 
-Cleric::Cleric(string characterName, Race characterRace) : 
+/*Cleric::Cleric(string characterName, Race characterRace) : 
     Character(characterName, characterRace), Inventory()
 {
     // Initializes name and race variables from parent class
@@ -38,8 +38,28 @@ Cleric::Cleric(string characterName, Race characterRace) :
         .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 
 
-}
+}*/
 
+
+Cleric::Cleric(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory() {
+        willpower = 10;
+
+        Weapon Wand;
+        Wand.name = "Simple Staff";
+        Wand.damage = 5;
+        Wand.cost = 100;
+
+        Item Start_Weapon;
+        Start_Weapon.name = Wand.name;
+        Start_Weapon.type = WEAPON;
+        Start_Weapon.value = static_cast<float>(Wand.cost);
+
+        SetHealth(50);
+        SetWeapon(Wand);
+
+        AddToInventory(Start_Weapon);
+}
 /**
  * Status Function
  * Public method Status that prints out the Status of the Cleric

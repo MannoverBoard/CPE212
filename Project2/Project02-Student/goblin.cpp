@@ -19,7 +19,7 @@
  */
 
 
-Goblin::Goblin(string characterName, Race characterRace) : 
+/*Goblin::Goblin(string characterName, Race characterRace) : 
     Character(characterName, characterRace), Inventory()
 {
 
@@ -33,7 +33,29 @@ Goblin::Goblin(string characterName, Race characterRace) :
 
     AddToInventory(Item{.name=Starter_Weapon.name,
         .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
-}
+}*/
+
+
+Goblin::Goblin(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory() {
+        attack = 2;
+
+        Weapon Stick;
+        Stick.name = "Pointy Stick";
+        Stick.damage = 5;
+        Stick.cost = 100;
+
+        Item Start_Weapon;
+        Start_Weapon.name = Stick.name;
+        Start_Weapon.type = WEAPON;
+        Start_Weapon.value = static_cast<float>(Stick.cost);
+
+        SetHealth(50);
+        SetWeapon(Stick);
+
+        AddToInventory(Start_Weapon);
+
+    }
 /**
  * Attack Function
  * Public method of Goblin that attacks an enemy Character

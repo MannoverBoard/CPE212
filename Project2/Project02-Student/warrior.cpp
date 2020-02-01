@@ -18,7 +18,7 @@
  *  Add the weapon to the Warriors inventory
  *  Assign a value of 10 for the base Warrior characteristic
  */
-Warrior::Warrior(string characterName, Race characterRace) :
+/*Warrior::Warrior(string characterName, Race characterRace) :
 Character(characterName, characterRace), Inventory()
 {
     
@@ -32,7 +32,28 @@ Character(characterName, characterRace), Inventory()
 
     AddToInventory(Item{.name=Starter_Weapon.name,
         .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
-}
+}*/
+
+
+Warrior::Warrior(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory() {
+        strength = 10;
+
+        Weapon Sword;
+        Sword.name = "Starter Longsword";
+        Sword.damage = 5;
+        Sword.cost = 100;
+
+        Item Start_Weapon;
+        Start_Weapon.name = Sword.name;
+        Start_Weapon.type = WEAPON;
+        Start_Weapon.value = static_cast<float>(Sword.cost);
+
+        SetHealth(150);
+        SetWeapon(Sword);
+
+        AddToInventory(Start_Weapon);
+    }
 /**
  * Public method of Warrior that attacks an enemy Character
  * @param enemy Pointer to the enemy Character

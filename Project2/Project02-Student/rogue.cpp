@@ -18,6 +18,9 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Rogue characteristic
  */
+
+
+/*
 Rogue::Rogue(string characterName, Race characterRace) :
 Character(characterName, characterRace), Inventory()
 {
@@ -33,6 +36,27 @@ Character(characterName, characterRace), Inventory()
     AddToInventory(Item{.name=Starter_Weapon.name,
         .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 }
+*/
+
+Rogue::Rogue(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory() {
+        dexterity = 10;
+
+        Weapon Dagger;
+        Dagger.name = "Starter Daggers";
+        Dagger.damage = 5;
+        Dagger.cost = 100;
+
+        Item Start_Weapon;
+        Start_Weapon.name = Dagger.name;
+        Start_Weapon.type = WEAPON;
+        Start_Weapon.value = static_cast<float>(Dagger.cost);
+
+        SetHealth(100);
+        SetWeapon(Dagger);
+
+        AddToInventory(Start_Weapon);
+    }
 /**
  * Public method of Rogue that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
