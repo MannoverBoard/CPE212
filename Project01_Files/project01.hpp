@@ -6,13 +6,11 @@
 #include <iostream>
 #include <fstream>
 #include "macros.h"
-
-const unsigned int MAX_ROWS = 15;
-const unsigned int MAX_COLS = 15;
+#include "utilities.h"
 
 
 #define MACRO_Direction_attributes(callback,...) \
-  EVAL(callback(Direction, cats, 1, __VA_ARGS__))
+  EVAL(callback(Direction, , 1, __VA_ARGS__))
 #define MACRO_Direction_members(callback,...) \
   EVAL(callback(Direction,Horizontal,-1, __VA_ARGS__)) \
   EVAL(callback(Direction,Vertical  ,+1, __VA_ARGS__))
@@ -29,10 +27,11 @@ const unsigned int MAX_COLS = 15;
   EVAL(callback(Rotation,__VA_ARGS__))
 PROJECT_01_ENUM_MACROS(ENUM_MACRO_DECLARATIONS)
 
+struct Image {
+  int data[15][15];
+};
 
-using Image = int[MAX_ROWS][MAX_COLS];
 //typedef int Image[MAX_ROWS][MAX_COLS];
-
 
 // load the image matrix from the file described.
 // if an error is ever encountered, this should return false
@@ -42,21 +41,21 @@ using Image = int[MAX_ROWS][MAX_COLS];
 // This probably should be the first function you work on.
 // if this function doesn't function correctly then your
 // project is dead in the water.
-bool LoadImage(const std::string & imageFile, Image image);
+bool LoadImage(const std::string & imageFile, Image& image);
 
 // This will flip the matrix according to the direction provided.
 // a value of false is returned when an unknown Flip value is given
 // otherwise a value of true is returned.
-bool Flip(Image image, Direction d);
+bool Flip(Image& image, const Direction d);
 
 // this will rotate the matrix according to the direction provided.
 // a value of false is returned when an unknown Rotation value is given
 // otherwise a value of true is returned.
-bool Rotate(Image image, Rotation r);
+bool Rotate(Image& image, const Rotation r);
 
 // this will transpose the image, which flips it across the diagonal.
 // this diagonal goes from the top left to the bottom right.
-void Transpose(Image image);
+void Transpose(Image& image);
 
 
 #endif // end define PROJECT01_HPP
