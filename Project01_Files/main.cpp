@@ -14,10 +14,7 @@ void Bars();
 
 using namespace std;
 #include "print_utilities.h"
-bool Flippy(Image& im) {
-  cout << im.data;
-  return 3;
-}
+
 int main(int argc, char * const argv[])
 {
 
@@ -70,7 +67,7 @@ int main(int argc, char * const argv[])
                     cout << "Invalidly caught a return false";
                 }
                 break;
-            }/*
+            }
             case '+':
                 if(!Rotate(image, Rotation::Clockwise))
                 {
@@ -105,7 +102,6 @@ int main(int argc, char * const argv[])
                 cout << "Terminating" << endl;
                 return -2;
                 break;
-                */
         }
         cout << endl;
         input >> op;

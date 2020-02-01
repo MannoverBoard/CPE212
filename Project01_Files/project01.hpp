@@ -1,23 +1,24 @@
 #ifndef PROJECT01_HPP
 #define PROJECT01_HPP
 
-
 #include <string>
 #include <iostream>
 #include <fstream>
 #include "macros.h"
 #include "utilities.h"
 
+//const size_t MAX_ROWS = 15;
+//const size_t MAX_COLS = 15;
 
 #define MACRO_Direction_attributes(callback,...) \
-  EVAL(callback(Direction, , 1, __VA_ARGS__))
+  EVAL(callback(Direction, 0, , 1, __VA_ARGS__))
 #define MACRO_Direction_members(callback,...) \
   EVAL(callback(Direction,Horizontal,-1, __VA_ARGS__)) \
   EVAL(callback(Direction,Vertical  ,+1, __VA_ARGS__))
 
 
 #define MACRO_Rotation_attributes(callback,...) \
-  EVAL(callback(Rotation, , 1, __VA_ARGS__))
+  EVAL(callback(Rotation, 0, , 1, __VA_ARGS__))
 #define MACRO_Rotation_members(callback,...) \
     EVAL(callback(Rotation,Clockwise       ,-1, __VA_ARGS__)) \
     EVAL(callback(Rotation,CounterClockwise,+1, __VA_ARGS__))
