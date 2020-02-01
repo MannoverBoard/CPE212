@@ -23,7 +23,7 @@ Character(characterName, characterRace), Inventory()
 {
     
     const Weapon Starter_Weapon{.name = "Starter Daggers", .damage = 5, .cost = 100};
-    // Weapon is initialized using an initializer list
+    // Weapon is initialized using an initialization list
 
     dexterity = 10;
 
@@ -43,7 +43,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Rogue::Attack(Character * target) {
-    if(target==nullptr) {return;};  // cool kids check pointers
+    //if(target==nullptr) {return;};  
     const int damage = GetWeapon().damage + dexterity/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -59,7 +59,7 @@ void Rogue::Attack(Character * target) {
  *      <Character Name> Back Stabs <Target Name> for <damage amount> points
  */
 void Rogue::BackStab(Character * target) {
-    if(target==nullptr) {return;};  // cool kids check pointers
+    //if(target==nullptr) {return;};  
     const int damage = GetWeapon().damage + 50 + dexterity/2;
     target->TakeDamage(damage);
     cout << GetName() << " Back Stabs " << target->GetName() << " for " <<

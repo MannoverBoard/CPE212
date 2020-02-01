@@ -23,7 +23,7 @@ Character(characterName, characterRace), Inventory()
 {
     
     const Weapon Starter_Weapon{.name = "Starter Longsword", .damage = 10, .cost = 100};
-    // Weapon is initialized using an initializer list
+    // Weapon is initialized using an initialization list
 
     strength = 10;
 
@@ -43,7 +43,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Warrior::Attack(Character * target) {
-    if(target==nullptr) {return;};  // cool kids check pointers
+    //if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + strength/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -59,7 +59,7 @@ void Warrior::Attack(Character * target) {
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
 void Warrior::PowerAttack(Character * target) {
-    if(target==nullptr) {return;};  // cool kids check pointers
+    //if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = (*target).GetHealth()/100 * (GetWeapon().damage + strength/2);
     target->TakeDamage(damage);
     cout << GetName() << " Power Attacks " << target->GetName() << " for " <<

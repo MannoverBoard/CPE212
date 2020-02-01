@@ -25,7 +25,7 @@ Goblin::Goblin(string characterName, Race characterRace) :
 {
 
     const Weapon Starter_Weapon{.name = "Pointy Stick", .damage = 3, .cost = 1};
-    // Weapon is initialized using an initializer list
+    // Weapon is initialized using an initialization list
 
     attack = 2;
 
@@ -47,7 +47,7 @@ Goblin::Goblin(string characterName, Race characterRace) :
  */
 
 void Goblin::Attack(Character * target) {
-    if(target==nullptr) {return;};
+    //if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + attack/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -65,7 +65,7 @@ void Goblin::Attack(Character * target) {
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
 void Goblin::SneakAttack(Character * target) {
-    if(target==nullptr) {return;};   // cool kids check pointers
+    //if(target==nullptr) {return;};   // cool kids check pointers
     const int damage = 20 + attack/2 + GetWeapon().damage;
     target->TakeDamage(damage);
     cout << GetName() << " Sneak Attacks " << target->GetName() << " for " <<

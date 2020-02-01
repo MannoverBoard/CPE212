@@ -23,7 +23,7 @@ Character(characterName, characterRace), Inventory()
 {
     intelligence = 10;
     const Weapon Starter_Weapon{.name = "Simple Staff", .damage = 5, .cost = 100};
-    // Weapon is initialized using an initializer list
+    // Weapon is initialized using an initialization list
     
     SetHealth(50);
     SetWeapon(Starter_Weapon);
@@ -79,5 +79,4 @@ void Mage::Status() {
     cout << "Level: "        << GetLevel()                 << '\n';
     cout << "Exp: "          << GetExp()                   << '\n';
     cout << "Intelligence: " << intelligence               << '\n';
-}
 }

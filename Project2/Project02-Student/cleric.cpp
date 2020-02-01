@@ -27,7 +27,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
     // Parent constructor must be called in Child class constructor
 
     const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 5, .cost = 100};
-    // Weapon is initialized using an initializer list
+    // Weapon is initialized using an initialization list
 
     willpower = 10;
 
@@ -97,6 +97,6 @@ void Cleric::Heal(Character * target) {
     // damage must be positive.
 
     cout << GetName() << " heals " << target->GetName() << " for " <<
-        damage << " points!\n"; 
+        -damage << " points!\n"; 
 
 }
