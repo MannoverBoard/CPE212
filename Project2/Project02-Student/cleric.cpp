@@ -35,7 +35,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
     SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = Starter_Weapon.cost, .type = WEAPON});
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 
 
 }
@@ -49,13 +49,13 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    cout << "Name: "      << GetName();
-    cout << "Race: "      << GetRace();
-    cout << "Weapon: "    << GetWeapon;
-    cout << "Health: "    << GetHealth();
-    cout << "Level: "     << GetLevel();
-    cout << "Exp: "       << GetExp();
-    cout << "Willpower: " << willpower;
+    cout << "Name: "      << GetName()                  << '\n';
+    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "    << GetWeapon().name           << '\n';
+    cout << "Health: "    << GetHealth()                << '\n';
+    cout << "Level: "     << GetLevel()                 << '\n';
+    cout << "Exp: "       << GetExp()                   << '\n';
+    cout << "Willpower: " << willpower                  << '\n';
 }
 
 /** 
@@ -69,11 +69,11 @@ void Cleric::Status() {
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Cleric::Attack(Character * target) {
-    if(target==nullptr) {return;};
+    //if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + willpower/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
-        damage << " points!";
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 
 
@@ -89,14 +89,14 @@ void Cleric::Attack(Character * target) {
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
 void Cleric::Heal(Character * target) {
-    if(target==nullptr) {return;};   // cool kids check pointers
+    //if(target==nullptr) {return;};   // cool kids check pointers
     const int damage = -(10 + willpower/2);
     target->TakeDamage(damage);
     // Setting damage to negative value allows TakeDamage function
     // to act as a healing action as there is no condition that 
     // damage must be positive.
 
-    cout << GetName(Character) << " heals " << GetName(*target) << " for " <<
-        damage << " points!"; 
+    cout << GetName() << " heals " << target->GetName() << " for " <<
+        damage << " points!\n"; 
 
 }

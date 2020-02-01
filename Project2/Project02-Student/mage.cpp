@@ -29,7 +29,7 @@ Character(characterName, characterRace), Inventory()
     SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = Starter_Weapon.cost, .type = WEAPON});
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 }
 /**
  * Public method of Mage that attacks an enemy Character
@@ -41,11 +41,11 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Mage::Attack(Character * target) {
-    if(target==nullptr) {return;};
+    //if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + intelligence/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
-        damage << " points!";
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 /**
  * Public method of Mage that sends a Fireball at an enemy Character
@@ -57,11 +57,11 @@ void Mage::Attack(Character * target) {
  *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
  */
 void Mage::Fireball(Character * target) {
-    if(target==nullptr) {return;};   // cool kids check pointers
+    //if(target==nullptr) {return;};
     const int damage = 10 + GetWeapon().damage + intelligence/2;
     target->TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " with a Fireball for " <<
-        damage << " points!";
+    cout << GetName() << " attacks " << target->GetName() << " with a Fireball for " <<
+        damage << " points!\n";
     
 }
 /**
@@ -72,12 +72,12 @@ void Mage::Fireball(Character * target) {
  *      "Luck: 7"
  */
 void Mage::Status() {
-    cout << "Name: "         << GetName();
-    cout << "Race: "         << GetRace();
-    cout << "Weapon: "       << GetWeapon;
-    cout << "Health: "       << GetHealth();
-    cout << "Level: "        << GetLevel();
-    cout << "Exp: "          << GetExp();
-    cout << "Intelligence: " << intelligence;
+    cout << "Name: "         << GetName()                  << '\n';
+    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "       << GetWeapon().name           << '\n';
+    cout << "Health: "       << GetHealth()                << '\n';
+    cout << "Level: "        << GetLevel()                 << '\n';
+    cout << "Exp: "          << GetExp()                   << '\n';
+    cout << "Intelligence: " << intelligence               << '\n';
 }
 }

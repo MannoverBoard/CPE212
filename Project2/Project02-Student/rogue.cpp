@@ -31,7 +31,7 @@ Character(characterName, characterRace), Inventory()
     SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = Starter_Weapon.cost, .type = WEAPON});
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 }
 /**
  * Public method of Rogue that attacks an enemy Character
@@ -45,9 +45,9 @@ Character(characterName, characterRace), Inventory()
 void Rogue::Attack(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = GetWeapon().damage + dexterity/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
-        damage << " points!";
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 /**
  * Public method of Rogue that Back Stabs a target Character
@@ -61,9 +61,9 @@ void Rogue::Attack(Character * target) {
 void Rogue::BackStab(Character * target) {
     if(target==nullptr) {return;};  // cool kids check pointers
     const int damage = GetWeapon().damage + 50 + dexterity/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " Back Stabs " << GetName(*target) << " for " <<
-        damage << " points!";
+    target->TakeDamage(damage);
+    cout << GetName() << " Back Stabs " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 /**
  * Public method Status that prints out the Status of the Rogue
@@ -73,11 +73,11 @@ void Rogue::BackStab(Character * target) {
  *      "Luck: 7"
  */
 void Rogue::Status() {
-    cout << "Name: "         << GetName();
-    cout << "Race: "         << GetRace();
-    cout << "Weapon: "       << GetWeapon;
-    cout << "Health: "       << GetHealth();
-    cout << "Level: "        << GetLevel();
-    cout << "Exp: "          << GetExp();
-    cout << "Dexterity: "    << dexterity;
+    cout << "Name: "         << GetName()                  << '\n';
+    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "       << GetWeapon().name           << '\n';
+    cout << "Health: "       << GetHealth()                << '\n';
+    cout << "Level: "        << GetLevel()                 << '\n';
+    cout << "Exp: "          << GetExp()                   << '\n';
+    cout << "Dexterity: "    << dexterity                  << '\n';
 }

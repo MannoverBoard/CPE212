@@ -33,7 +33,7 @@ Goblin::Goblin(string characterName, Race characterRace) :
     SetWeapon(Starter_Weapon);
 
     AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = Starter_Weapon.cost, .type = WEAPON});
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
 }
 /**
  * Attack Function
@@ -49,9 +49,9 @@ Goblin::Goblin(string characterName, Race characterRace) :
 void Goblin::Attack(Character * target) {
     if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + attack/2;
-    target.TakeDamage(damage);
-    cout << GetName(Character) << " attacks " << GetName(*target) << " for " <<
-        damage << " points!";
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 
 /**
@@ -67,10 +67,9 @@ void Goblin::Attack(Character * target) {
 void Goblin::SneakAttack(Character * target) {
     if(target==nullptr) {return;};   // cool kids check pointers
     const int damage = 20 + attack/2 + GetWeapon().damage;
-    (*target).TakeDamage(damage);
-    cout << GetName(Character) << " Sneak Attacks " << GetName(*target) << " for " <<
-        damage << " points!";
-}
+    target->TakeDamage(damage);
+    cout << GetName() << " Sneak Attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
 
 /**
@@ -83,11 +82,11 @@ void Goblin::SneakAttack(Character * target) {
  */
 
 void Goblin::Status() {
-    cout << "Name: "      << GetName();
-    cout << "Race: "      << GetRace();
-    cout << "Weapon: "    << GetWeapon();
-    cout << "Health: "    << GetHealth();
-    cout << "Level: "     << GetLevel();
-    cout << "Exp: "       << GetExp();
-    cout << "Attack : "   << attack;
+    cout << "Name: "      << GetName()                  << '\n';
+    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "    << GetWeapon().name           << '\n';
+    cout << "Health: "    << GetHealth()                << '\n';
+    cout << "Level: "     << GetLevel()                 << '\n';
+    cout << "Exp: "       << GetExp()                   << '\n';
+    cout << "Attack: "    << attack                     << '\n';
 }
