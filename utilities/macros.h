@@ -51,17 +51,26 @@ namespace GET_ENUM_ATTR_SCOPE(EnumName) { \
 enum class EnumName { \
   GET_MACRO_MEMBERS(EnumName)(ENUM_MACRO_DECLARATIONS__CALLBACK,__VA_ARGS__) \
 }; } \
-std::string toString(const GET_ENUM_SCOPED_NAME(EnumName)& value); \
-std::ostream& operator<<(std::ostream& os, const GET_ENUM_SCOPED_NAME(EnumName)& value);
+std::string toString(const GET_ENUM_SCOPED_NAME(EnumName) value); \
+std::ostream& operator<<(std::ostream& os, const GET_ENUM_SCOPED_NAME(EnumName) value);
 
-#define ENUM_MACRO_DEFINITIONS__CALLBACK(EnumName,name,...) case GET_ENUM_SCOPED_NAME(EnumName)::name: return #name; break;
+#define ENUM_MACRO_DEFINITIONS__CALLBACK_01(EnumName,name,...) case GET_ENUM_SCOPED_NAME(EnumName)::name: return #name; break;
+#define ENUM_MACRO_DEFINITIONS__CALLBACK_02(EnumName,name,...) case GET_ENUM_SCOPED_NAME(EnumName)::name:
 #define ENUM_MACRO_DEFINITIONS(EnumName,...) \
-std::string toString(const GET_ENUM_SCOPED_NAME(EnumName)& value) { \
+std::string toString(const GET_ENUM_SCOPED_NAME(EnumName) value) { \
   switch(value) {                                               \
-    GET_MACRO_MEMBERS(EnumName)(ENUM_MACRO_DEFINITIONS__CALLBACK,__VA_ARGS__) \
+    GET_MACRO_MEMBERS(EnumName)(ENUM_MACRO_DEFINITIONS__CALLBACK_01,__VA_ARGS__) \
   } \
   return "INVALID "#EnumName; } \
-std::ostream& operator<<(std::ostream& os, const GET_ENUM_SCOPED_NAME(EnumName)& value) { \
-  os << toString(value); return os; }
+std::ostream& operator<<(std::ostream& os, const GET_ENUM_SCOPED_NAME(EnumName) value) { \
+  os << toString(value); return os; } \
+bool isValid(const GET_ENUM_SCOPED_NAME(EnumName) value) { \
+  switch(value) { \
+    GET_MACRO_MEMBERS(EnumName)(ENUM_MACRO_DEFINITIONS__CALLBACK_01,__VA_ARGS__) \
+      return true; \
+    default: return false; \
+  } \
+  return false; \
+}
 
 #endif
