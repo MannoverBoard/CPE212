@@ -1,6 +1,6 @@
-#include "project01.hpp"
 #include <fstream>
 #include <regex>
+#include "project01.hpp"
 
 PROJECT_01_ENUM_MACROS(ENUM_MACRO_DEFINITIONS)
 
@@ -8,7 +8,6 @@ using namespace std;
 const regex comment_line(R"(^\s*#)");
 const regex blank_line(R"(^\s*$)");
 const regex number(R"((\d+))");
-smatch m;
 
 bool LoadImage(const std::string & imageFile, Image& image)
 {
@@ -16,6 +15,7 @@ bool LoadImage(const std::string & imageFile, Image& image)
   auto fin = ifstream(imageFile);
   if(!fin.is_open()) { return false; }
   size_t row = 0;
+  smatch m;
   while(1) {
     getline(fin,line);
     if(regex_match(line,blank_line) || regex_match(line,comment_line)) {
@@ -34,19 +34,19 @@ bool LoadImage(const std::string & imageFile, Image& image)
   return true;
 }
 
-bool Flip(Image& image, const Direction d)
+bool Flip(struct Image& image, const Direction d)
 {
     // Implement this function
     return true;
 }
 
-bool Rotate(Image& image, const Rotation r)
+bool Rotate(struct Image& image, const Rotation r)
 {
     // Implement this function
     return true;
 }
 
-void Transpose(Image& image)
+void Transpose(struct Image& image)
 {
     // Implement this function
 }

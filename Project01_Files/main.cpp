@@ -9,11 +9,15 @@
 // if a 0 is found int he slot, print a "0"
 // if a -1 is found, print a "-"
 // otherwise, print an "X"
-void Print(const Image& image);
+void Print(const struct Image& image);
 void Bars();
 
 using namespace std;
-
+#include "print_utilities.h"
+bool Flippy(Image& im) {
+  cout << im.data;
+  return 3;
+}
 int main(int argc, char * const argv[])
 {
 
@@ -33,7 +37,7 @@ int main(int argc, char * const argv[])
         return 1;
     }
 
-    Image image;
+    struct Image image;
     string line;
     getline(input, line);
 
@@ -66,8 +70,7 @@ int main(int argc, char * const argv[])
                     cout << "Invalidly caught a return false";
                 }
                 break;
-            }
-            /*
+            }/*
             case '+':
                 if(!Rotate(image, Rotation::Clockwise))
                 {
@@ -75,7 +78,6 @@ int main(int argc, char * const argv[])
                 }
 
                 break;
-
             case '-':
                 if(!Rotate(image, Rotation::CounterClockwise))
                 {
@@ -115,7 +117,7 @@ int main(int argc, char * const argv[])
 /// DO NOT MODIFY THIS CODE
 
 
-void Print(const Image& image) {
+void Print(const struct Image& image) {
   for(int r = 0; r < arrayLen(image.data); ++r) {
     for(int c = 0; c < arrayLen(image.data[0]);++c) {
       switch(image.data[r][c]) {
