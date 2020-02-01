@@ -18,7 +18,21 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Rogue characteristic
  */
+Rogue::Rogue(string characterName, Race characterRace) :
+Character(characterName, characterRace), Inventory()
+{
+    
+    const Weapon Starter_Weapon{.name = "Starter Daggers", .damage = 5, .cost = 100};
+    // Weapon is initialized using an initialization list
 
+    dexterity = 10;
+
+    SetHealth(100);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+}
 /**
  * Public method of Rogue that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -28,7 +42,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
+void Rogue::Attack(Character * target) {
+    //if(target==nullptr) {return;};  
+    const int damage = GetWeapon().damage + dexterity/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 /**
  * Public method of Rogue that Back Stabs a target Character
  * @param target Pointer to the Character to be healed
@@ -38,7 +58,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Back Stabs <Target Name> for <damage amount> points
  */
-
+void Rogue::BackStab(Character * target) {
+    //if(target==nullptr) {return;};  
+    const int damage = GetWeapon().damage + 50 + dexterity/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " Back Stabs " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 /**
  * Public method Status that prints out the Status of the Rogue
  * @attention You MUST print out the local Rogue variables.
@@ -46,3 +72,12 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+void Rogue::Status() {
+    cout << "Name: "         << GetName()                  << '\n';
+    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "       << GetWeapon().name           << '\n';
+    cout << "Health: "       << GetHealth()                << '\n';
+    cout << "Level: "        << GetLevel()                 << '\n';
+    cout << "Exp: "          << GetExp()                   << '\n';
+    cout << "Dexterity: "    << dexterity                  << '\n';
+}

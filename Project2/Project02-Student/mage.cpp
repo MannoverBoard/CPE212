@@ -18,7 +18,19 @@
  *  Add the weapon to the Mage inventory
  *  Assign a value of 10 for the base Mage characteristic
  */
+Mage::Mage(string characterName, Race characterRace) :
+Character(characterName, characterRace), Inventory()
+{
+    intelligence = 10;
+    const Weapon Starter_Weapon{.name = "Simple Staff", .damage = 5, .cost = 100};
+    // Weapon is initialized using an initialization list
+    
+    SetHealth(50);
+    SetWeapon(Starter_Weapon);
 
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+}
 /**
  * Public method of Mage that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -28,7 +40,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
+void Mage::Attack(Character * target) {
+    //if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + intelligence/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 /**
  * Public method of Mage that sends a Fireball at an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -38,7 +56,14 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
  */
-
+void Mage::Fireball(Character * target) {
+    //if(target==nullptr) {return;};
+    const int damage = 10 + GetWeapon().damage + intelligence/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " with a Fireball for " <<
+        damage << " points!\n";
+    
+}
 /**
  * Public method Status that prints out the Status of the Cleric
  * @attention You MUST print out the local Cleric variables.
@@ -46,3 +71,12 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+void Mage::Status() {
+    cout << "Name: "         << GetName()                  << '\n';
+    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "       << GetWeapon().name           << '\n';
+    cout << "Health: "       << GetHealth()                << '\n';
+    cout << "Level: "        << GetLevel()                 << '\n';
+    cout << "Exp: "          << GetExp()                   << '\n';
+    cout << "Intelligence: " << intelligence               << '\n';
+}

@@ -20,6 +20,26 @@
  */
 
 
+Cleric::Cleric(string characterName, Race characterRace) : 
+    Character(characterName, characterRace), Inventory()
+{
+    // Initializes name and race variables from parent class
+    // Parent constructor must be called in Child class constructor
+
+    const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 5, .cost = 100};
+    // Weapon is initialized using an initialization list
+
+    willpower = 10;
+
+    SetHealth(50);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+
+
+}
+
 /**
  * Status Function
  * Public method Status that prints out the Status of the Cleric
@@ -28,7 +48,15 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
-
+void Cleric::Status() {
+    cout << "Name: "      << GetName()                  << '\n';
+    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "    << GetWeapon().name           << '\n';
+    cout << "Health: "    << GetHealth()                << '\n';
+    cout << "Level: "     << GetLevel()                 << '\n';
+    cout << "Exp: "       << GetExp()                   << '\n';
+    cout << "Willpower: " << willpower                  << '\n';
+}
 
 /** 
  * Attack Function
@@ -40,7 +68,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
+void Cleric::Attack(Character * target) {
+    //if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + willpower/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 
 
 
@@ -54,3 +88,15 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
+void Cleric::Heal(Character * target) {
+    //if(target==nullptr) {return;};   // cool kids check pointers
+    const int damage = -(10 + willpower/2);
+    target->TakeDamage(damage);
+    // Setting damage to negative value allows TakeDamage function
+    // to act as a healing action as there is no condition that 
+    // damage must be positive.
+
+    cout << GetName() << " heals " << target->GetName() << " for " <<
+        -damage << " points!\n"; 
+
+}

@@ -18,7 +18,21 @@
  *  Add the weapon to the Warriors inventory
  *  Assign a value of 10 for the base Warrior characteristic
  */
+Warrior::Warrior(string characterName, Race characterRace) :
+Character(characterName, characterRace), Inventory()
+{
+    
+    const Weapon Starter_Weapon{.name = "Starter Longsword", .damage = 10, .cost = 100};
+    // Weapon is initialized using an initialization list
 
+    strength = 10;
+
+    SetHealth(150);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+}
 /**
  * Public method of Warrior that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -28,7 +42,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
+void Warrior::Attack(Character * target) {
+    //if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + strength/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 /**
  * Public method of Warrior that deals a Power Attack to a target Character
  * @param target Pointer to the Character to be attacked
@@ -38,7 +58,13 @@
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
-
+void Warrior::PowerAttack(Character * target) {
+    //if(target==nullptr) {return;};  // cool kids check pointers
+    const int damage = (*target).GetHealth()/100 * (GetWeapon().damage + strength/2);
+    target->TakeDamage(damage);
+    cout << GetName() << " Power Attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
+}
 /**
  * Public method Status that prints out the Status of the Warrior
  * @attention You MUST print out the local Warrior variables.
@@ -46,3 +72,13 @@
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+
+void Warrior::Status() {
+    cout << "Name: "      << GetName()                  << '\n';
+    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "    << GetWeapon().name           << '\n';
+    cout << "Health: "    << GetHealth()                << '\n';
+    cout << "Level: "     << GetLevel()                 << '\n';
+    cout << "Exp: "       << GetExp()                   << '\n';
+    cout << "Strength: "  << strength                   << '\n';
+}
