@@ -15,6 +15,15 @@ Inventory::Inventory()
     potion.value = 10;
     potion.type = POTION;
     
+    Item init;
+    init.name = "";
+    init.value = 0;
+
+    // Loop that clears inventory
+    for (int i = 0; i < MAX_SLOTS; i++) {
+        items[i] = init;
+    }
+
     Inventory::AddToInventory(potion);
     
 }

@@ -9,12 +9,12 @@
 }*/
 
 Character::Character() {
-    name;
-    job;
+    name = "";
+    job = "";
     weapon;
-    health;
-    level;
-    exp;
+    health = 0;
+    level = 0;
+    exp = 0;
 
 }
 
