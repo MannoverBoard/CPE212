@@ -2,7 +2,6 @@
  * goblin.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "goblin.hpp"
-
 /**
  * Goblin Class constructor
  * @param characterName The name of the character being created
