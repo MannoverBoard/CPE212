@@ -9,36 +9,36 @@
 // if a 0 is found int he slot, print a "0"
 // if a -1 is found, print a "-"
 // otherwise, print an "X"
-void Print(const Image image);
+void Print(const Image& image);
 void Bars();
 
+using namespace std;
+#include "print_utilities.h"
 
 int main(int argc, char * const argv[])
 {
-        
+
     // Output usage message if test input file name is not provided
     if (argc != 2)
     {
-        std::cout << "Usage:\n  project01  <inputfile>\n";
+        cout << "Usage:\n  project01  <inputfile>\n";
         return -1;
     }
-    
 
-    std::ifstream input;
+    ifstream input;
     // Attempt to open test input file -- terminate if file does not open
     input.open(argv[1]);
     if (!input)
     {
-        std::cout << "Error - unable to open input file" << std::endl;
+        cout << "Error - unable to open input file" << endl;
         return 1;
     }
 
-    Image image;
-    std::string line;
+    Image image{};
+    string line;
     getline(input, line);
 
-    std::cout << std::endl << line << std::endl << std::endl;
-    
+    cout << endl << line << endl << endl;
     // main loop goes here
     char op;
     input >> op;
@@ -48,103 +48,86 @@ int main(int argc, char * const argv[])
         {
             case '#':
                 getline(input, line);
-                std::cout << "# " << line << std::endl;
+                cout << "# " << line << endl;
                 break;
             case 'p':
                 Print(image);
                 break;
-                
+
             case 'b':
                 Bars();
                 break;
-                
+
             case 'i':
-            {                
-                std::string imageFile;
+            {
+                string imageFile;
                 input >> imageFile;
                 if(!LoadImage(imageFile, image))
                 {
-                    std::cout << "Invalidly caught a return false";
+                    cout << "Invalidly caught a return false";
                 }
                 break;
-            }                
+            }
             case '+':
-                if(!Rotate(image, R_Clock))
+                if(!Rotate(image, Rotation::Clockwise))
                 {
-                    std::cout << "Invalidly caught a return false";
+                    cout << "Invalidly caught a return false";
                 }
 
                 break;
-                
             case '-':
-                if(!Rotate(image, R_CounterClock))
+                if(!Rotate(image, Rotation::CounterClockwise))
                 {
-                    std::cout << "Invalidly caught a return false";
+                    cout << "Invalidly caught a return false";
                 }
                 break;
-                
+
             case 'v':
-                if(!Flip(image, D_Vertical))
+                if(!Flip(image, Direction::Vertical))
                 {
-                    std::cout << "Invalidly caught a return false";
+                    cout << "Invalidly caught a return false";
                 }
                 break;
             case 'h':
-                if(!Flip(image, D_Horizontal))
+                if(!Flip(image, Direction::Horizontal))
                 {
-                    std::cout << "Invalidly caught a return false";
-                }                
+                    cout << "Invalidly caught a return false";
+                }
                 break;
-                
             case 't':
                 Transpose(image);
                 break;
-
             default:
-                std::cout << "Unrecognized command: " << op << std::endl;
-                std::cout << "Terminating" << std::endl;
+                cout << "Unrecognized command: " << op << endl;
+                cout << "Terminating" << endl;
                 return -2;
                 break;
-                
-                
-                
         }
-        std::cout << std::endl;
+        cout << endl;
         input >> op;
     }
-    
+
     return 0;
 }
 
 /// DO NOT MODIFY THIS CODE
 
 
-void Print(const Image image)
-{
-    for(int r = 0; r < MAX_ROWS; r++)
-    {
-        for(int c = 0; c < MAX_COLS; c ++)
-        {
-            switch(image[r][c])
-            {
-                case 1:
-                    std::cout << "*";
-                    break;
-                case 0:
-                    std::cout << "-";
-                    break;
-                default: 
-                    std::cout << "X";
-                    break;
-            }
-        }
-        std::cout << std::endl;
+void Print(const Image& image) {
+  for(int r = 0; r < arrayLen(image); ++r) {
+    for(int c = 0; c < arrayLen(image[0]);++c) {
+      switch(image[r][c]) {
+        case 1:  cout << "*"; break;
+        case 0:  cout << "-"; break;
+        default: cout << "X"; break;
+      }
     }
+    cout << '\n';
+  }
 }
-    
-void Bars()
-{
-    std::cout << "#################################################################\n"
-              << "#################################################################"
-              << std::endl;     
+
+void Bars() {
+  cout << "#################################################################\n"
+       << "#################################################################"
+       << endl;
 }
