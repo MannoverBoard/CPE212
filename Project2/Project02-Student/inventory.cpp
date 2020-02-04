@@ -1,5 +1,17 @@
 #include "inventory.hpp"
 
+#include <string>       // std::string
+#include <iostream>     
+#include <sstream>
+
+#include "stuff.h"
+
+// <rant>
+// This to string crud really should be in the struct definitions..
+// </rant>
+const auto DEFAULT_TYPE = POTION;
+const Item DEFAULT_ITEM{"NO NAME",0.,DEFAULT_TYPE};
+
 /**
  * Inventory Constructor
  * Add the following item to the inventory
@@ -8,28 +20,28 @@
  *  value: 10
  *  type: POTION
  */
-Inventory::Inventory()
-{
-    Item potion;
-    potion.name = "Basic Health Potion";
-    potion.value = 10;
-    potion.type = POTION;
-    
-    Inventory::AddToInventory(potion);
-    
+ 
+Inventory::Inventory() {
+	length = 0;
+	std::fill(std::begin(items),std::end(items),DEFAULT_ITEM);
+	AddToInventory(Item{"Basic Health Potion",10.,Type::POTION});
 }
+
 /**
  * AddToInventory Function
  * Function that adds items to the inventory
  */ 
+// <rant>
+// AGH! why is there no return value, what if there are too many items....
+// how is the caller supposed to know..
+// </rant>
 void Inventory::AddToInventory(Item i) {
-    if (length>=MAX_SLOTS) {
-        return;
-    }
-
-    items[length] = i;
-    length++;
+	const auto is_full = (length>=num_elements(items));
+	if(is_full) { return; }
+	items[length] = i;
+	length++;
 }
+
 /**
  * ShowInventory Function
  * Function that shows all items in the inventory
@@ -37,9 +49,8 @@ void Inventory::AddToInventory(Item i) {
  *  Item - <Item Name> Value: <Item Value>
  */ 
 void Inventory::ShowInventory() {
-    for (int index = 0; index < MAX_SLOTS; index++) {
-        cout << "Item - <" << items[index].name <<
-        "> Value: <" << items[index].value << ">\n";
-    }
-
+	for(size_t i=0; i<length;++i) {
+		std::cout<<toString(items[i])<<"\n";
+	}
+	//TODO PRINTING: should this print a trailing newline?
 }

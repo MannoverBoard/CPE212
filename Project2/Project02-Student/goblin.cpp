@@ -2,6 +2,8 @@
  * goblin.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "goblin.hpp"
+#include "stuff.h"
+
 /**
  * Goblin Class constructor
  * @param characterName The name of the character being created
@@ -17,23 +19,19 @@
  *  Add the weapon to the Goblins inventory
  *  Assign a value of 2 for the base Goblin characteristic
  */
+const int DEFAULT_HEALTH = 30;
+const Weapon STARTER_WEAPON{.name="Pointy Stick", .cost=1, .damage=3 };
+const int DEFAULT_CHARACTERISTIC = 2;
 
-
-Goblin::Goblin(string characterName, Race characterRace) : 
-    Character(characterName, characterRace), Inventory()
+Goblin::Goblin(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
 {
-
-    const Weapon Starter_Weapon{.name = "Pointy Stick", .damage = 3, .cost = 1};
-    // Weapon is initialized using an initialization list
-
-    attack = 2;
-
-    SetHealth(30);
-    SetWeapon(Starter_Weapon);
-
-    AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+	Weapon my_weapon = STARTER_WEAPON;
+	attack = DEFAULT_CHARACTERISTIC;
+	SetHealth(DEFAULT_HEALTH);
+	SetWeapon(my_weapon);
+	AddToInventory(toItem(my_weapon));
 }
+
 /**
  * Attack Function
  * Public method of Goblin that attacks an enemy Character
@@ -44,13 +42,12 @@ Goblin::Goblin(string characterName, Race characterRace) :
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-
-void Goblin::Attack(Character * target) {
-    //if(target==nullptr) {return;};
-    const int damage = GetWeapon().damage + attack/2;
-    target->TakeDamage(damage);
-    cout << GetName() << " attacks " << target->GetName() << " for " <<
-        damage << " points!\n";
+void Goblin::Attack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + (attack/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
 }
 
 /**
@@ -63,12 +60,12 @@ void Goblin::Attack(Character * target) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
-void Goblin::SneakAttack(Character * target) {
-    //if(target==nullptr) {return;};   // cool kids check pointers
-    const int damage = 20 + attack/2 + GetWeapon().damage;
-    target->TakeDamage(damage);
-    cout << GetName() << " Sneak Attacks " << target->GetName() << " for " <<
-        damage << " points!\n";
+void Goblin::SneakAttack(Character * enemy) {
+	if(enemy==nullptr) { return; }
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + 20 + (attack/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " Sneak Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
 }
 
 /**
@@ -79,13 +76,8 @@ void Goblin::SneakAttack(Character * target) {
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
-
 void Goblin::Status() {
-    cout << "Name: "      << GetName()                  << '\n';
-    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "    << GetWeapon().name           << '\n';
-    cout << "Health: "    << GetHealth()                << '\n';
-    cout << "Level: "     << GetLevel()                 << '\n';
-    cout << "Exp: "       << GetExp()                   << '\n';
-    cout << "Attack: "    << attack                     << '\n';
+  std::cout << "Attack: " << attack << "\n";
 }
+
+

@@ -2,6 +2,7 @@
  * cleric.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "cleric.hpp"
+#include "stuff.h"
 
 /**
  * Cleric Class constructor
@@ -18,27 +19,27 @@
  *  Add the weapon to the Clerics inventory
  *  Assign a value of 10 for the base Cleric characteristic
  */
+const int DEFAULT_HEALTH = 50;
+const Weapon STARTER_WEAPON{.name="Simple Wand",.damage=5,.cost=100};
+const int DEFAULT_CHARACTERISTIC = 10;
 
-
-Cleric::Cleric(string characterName, Race characterRace) : 
-    Character(characterName, characterRace), Inventory()
+// <rant>
+// the cleric *has* an inventory, it isn't AN inventory...whatever...
+// Also the fact that data is duplicated with the whole weapon inventory thing.. 
+// if weapon is updated how does the inventory get updated!! this is a horrible design
+// </rant>
+Cleric::Cleric(string characterName, Race characterRace): Character(characterName,characterRace), Inventory{}
 {
-    // Initializes name and race variables from parent class
-    // Parent constructor must be called in Child class constructor
-
-    const Weapon Starter_Weapon{.name = "Simple Wand", .damage = 5, .cost = 100};
-    // Weapon is initialized using an initialization list
-
-    willpower = 10;
-
-    SetHealth(50);
-    SetWeapon(Starter_Weapon);
-
-    AddToInventory(Item{.name=Starter_Weapon.name,
-        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
-
-
+	Weapon my_weapon = STARTER_WEAPON;
+	willpower = DEFAULT_CHARACTERISTIC;
+	SetHealth(DEFAULT_HEALTH);
+	SetWeapon(my_weapon);
+	AddToInventory(toItem(my_weapon));
 }
+
+// <rant>
+// Why are these .cpp comments in a different order than the .h file? Where is the consistency? Not that it matters really
+// </rant>
 
 /**
  * Status Function
@@ -49,13 +50,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    cout << "Name: "      << GetName()                  << '\n';
-    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "    << GetWeapon().name           << '\n';
-    cout << "Health: "    << GetHealth()                << '\n';
-    cout << "Level: "     << GetLevel()                 << '\n';
-    cout << "Exp: "       << GetExp()                   << '\n';
-    cout << "Willpower: " << willpower                  << '\n';
+  std::cout << "Willpower: " << willpower << "\n";
 }
 
 /** 
@@ -68,13 +63,15 @@ void Cleric::Status() {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-void Cleric::Attack(Character * target) {
-    //if(target==nullptr) {return;};
-    const int damage = GetWeapon().damage + willpower/2;
-    target->TakeDamage(damage);
-    cout << GetName() << " attacks " << target->GetName() << " for " <<
-        damage << " points!\n";
+void Cleric::Attack(Character * enemy) {
+	if(enemy==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+	const auto weapon = GetWeapon();
+	const int damage = rounding(weapon.damage + (willpower/2.),RoundingEvent::Player);
+	enemy->TakeDamage(damage);
+	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	//TODO PRINTING: what is the convention here for trailing newlines.
 }
+
 
 
 
@@ -89,14 +86,8 @@ void Cleric::Attack(Character * target) {
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
 void Cleric::Heal(Character * target) {
-    //if(target==nullptr) {return;};   // cool kids check pointers
-    const int damage = -(10 + willpower/2);
-    target->TakeDamage(damage);
-    // Setting damage to negative value allows TakeDamage function
-    // to act as a healing action as there is no condition that 
-    // damage must be positive.
-
-    cout << GetName() << " heals " << target->GetName() << " for " <<
-        -damage << " points!\n"; 
-
-}
+	if(target==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+	const int points = rounding(10 + (willpower/2.),RoundingEvent::Player);
+	target->TakeDamage(points);
+	std::cout<< GetName() << " heals " << target->GetName() << " for " << points << " points" << "\n";
+}	
