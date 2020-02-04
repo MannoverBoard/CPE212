@@ -2,7 +2,6 @@
  * warrior.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "warrior.hpp"
-#include "stuff.h"
 
 /**
  * Warrior Class constructor
@@ -19,19 +18,21 @@
  *  Add the weapon to the Warriors inventory
  *  Assign a value of 10 for the base Warrior characteristic
  */
-const int DEFAULT_HEALTH = 150;
-const Weapon STARTER_WEAPON{.name="Starter Longsword", .cost=100, .damage=10 };
-const int DEFAULT_CHARACTERISTIC = 10;
-
-Warrior::Warrior(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+Warrior::Warrior(string characterName, Race characterRace) :
+Character(characterName, characterRace), Inventory()
 {
-	Weapon my_weapon = STARTER_WEAPON;
-	strength = DEFAULT_CHARACTERISTIC;
-	SetHealth(DEFAULT_HEALTH);
-	SetWeapon(my_weapon);
-	AddToInventory(toItem(my_weapon));
-}
+    
+    const Weapon Starter_Weapon{.name = "Starter Longsword", .damage = 10, .cost = 100};
+    // Weapon is initialized using an initialization list
 
+    strength = 10;
+
+    SetHealth(150);
+    SetWeapon(Starter_Weapon);
+
+    AddToInventory(Item{.name=Starter_Weapon.name,
+        .value = static_cast<float>(Starter_Weapon.cost), .type = WEAPON});
+}
 /**
  * Public method of Warrior that attacks an enemy Character
  * @param enemy Pointer to the enemy Character
@@ -41,14 +42,13 @@ Warrior::Warrior(string characterName, Race characterRace): Character(characterN
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
-void Warrior::Attack(Character * enemy) {
-	if(enemy==nullptr) { return; }
-	const auto weapon = GetWeapon();
-	const int damage = rounding(weapon.damage + (strength/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+void Warrior::Attack(Character * target) {
+    //if(target==nullptr) {return;};
+    const int damage = GetWeapon().damage + strength/2;
+    target->TakeDamage(damage);
+    cout << GetName() << " attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
-
 /**
  * Public method of Warrior that deals a Power Attack to a target Character
  * @param target Pointer to the Character to be attacked
@@ -58,14 +58,13 @@ void Warrior::Attack(Character * enemy) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
-void Warrior::PowerAttack(Character * enemy) {
-	if(enemy==nullptr) { return; }
-	const auto weapon = GetWeapon();
-	const int damage = rounding(GetHealth()/100.*(weapon.damage + (strength/2.)),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " Power Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
+void Warrior::PowerAttack(Character * target) {
+    //if(target==nullptr) {return;};  // cool kids check pointers
+    const int damage = (*target).GetHealth()/100 * (GetWeapon().damage + strength/2);
+    target->TakeDamage(damage);
+    cout << GetName() << " Power Attacks " << target->GetName() << " for " <<
+        damage << " points!\n";
 }
-
 /**
  * Public method Status that prints out the Status of the Warrior
  * @attention You MUST print out the local Warrior variables.
@@ -73,10 +72,13 @@ void Warrior::PowerAttack(Character * enemy) {
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
+
 void Warrior::Status() {
-  std::cout << "Strength: " << strength << "\n";
+    cout << "Name: "      << GetName()                  << '\n';
+    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
+    cout << "Weapon: "    << GetWeapon().name           << '\n';
+    cout << "Health: "    << GetHealth()                << '\n';
+    cout << "Level: "     << GetLevel()                 << '\n';
+    cout << "Exp: "       << GetExp()                   << '\n';
+    cout << "Strength: "  << strength                   << '\n';
 }
-
-
-
-
