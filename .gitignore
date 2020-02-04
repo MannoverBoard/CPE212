@@ -1,5 +1,7 @@
 *.gch
 *.swp
 *.o
+*.exe
 a.out
+a.exe
 .DS_Store
