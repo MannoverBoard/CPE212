@@ -21,7 +21,7 @@
  */
 
 const int DEFAULT_HEALTH = 100;
-const Weapon STARTER_WEAPON{.name="Starter Daggers", .cost=100, .damage=5 };
+const Weapon STARTER_WEAPON{.name="Starter Daggers", .damage=5, .cost=100 };
 const int DEFAULT_CHARACTERISTIC = 10;
 
 Rogue::Rogue(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}

@@ -20,7 +20,7 @@
  *  Assign a value of 10 for the base Warrior characteristic
  */
 const int DEFAULT_HEALTH = 150;
-const Weapon STARTER_WEAPON{.name="Starter Longsword", .cost=100, .damage=10 };
+const Weapon STARTER_WEAPON{.name="Starter Longsword", .damage=10, .cost=100 };
 const int DEFAULT_CHARACTERISTIC = 10;
 
 Warrior::Warrior(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}

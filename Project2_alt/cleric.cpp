@@ -20,7 +20,7 @@
  *  Assign a value of 10 for the base Cleric characteristic
  */
 const int DEFAULT_HEALTH = 50;
-const Weapon STARTER_WEAPON{.name="Simple Wand",.damage=5,.cost=100};
+const Weapon STARTER_WEAPON{.name="Simple Wand", .damage=5, .cost=100};
 const int DEFAULT_CHARACTERISTIC = 10;
 
 // <rant>

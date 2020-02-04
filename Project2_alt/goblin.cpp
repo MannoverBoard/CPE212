@@ -20,7 +20,7 @@
  *  Assign a value of 2 for the base Goblin characteristic
  */
 const int DEFAULT_HEALTH = 30;
-const Weapon STARTER_WEAPON{.name="Pointy Stick", .cost=1, .damage=3 };
+const Weapon STARTER_WEAPON{.name="Pointy Stick", .damage=3, .cost=1 };
 const int DEFAULT_CHARACTERISTIC = 2;
 
 Goblin::Goblin(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
