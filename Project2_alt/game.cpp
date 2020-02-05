@@ -108,9 +108,9 @@ int main (int argc, char * const argv[])
         break;
 
       case '+':   // Constructor
-        inputs >> ch;       // Job to create
+        inputs >> ch;     // Job to create
         inputs >> r;     // Race
-        inputs >> name;     // Name
+        inputs >> name;   // Name
 
         race = getRace(r);
         try {
@@ -151,7 +151,7 @@ int main (int argc, char * const argv[])
         {
           auto actor = getChar(d);
           auto target = getChar('g');
-          if(d=='g') {
+          if(d=='g' || (d=='c' && r=='s')) {
             inputs >> c;
             target = getChar(c);
           }
