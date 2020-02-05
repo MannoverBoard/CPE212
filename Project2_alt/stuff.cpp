@@ -1,29 +1,14 @@
-#include "stuff.h"
-#include <cmath>
 #include <sstream>
+#include <cmath>
+
+#include "stuff.h"
 
 
 STUFF_ENUM_MACROS(ENUM_MACRO_DEFINITIONS)
 
-std::string toString(const Type& type) {
-  switch(type) {
-  case POTION   : return "POTION"   ; break;
-  case WEAPON   : return "WEAPON"   ; break;
-  case ARMOR    : return "ARMOR"    ; break;
-  case ACCESSORY: return "ACCESSORY"; break;
-  }
-  return "INVALID TYPE";
-}
-
 Item toItem(const Weapon& weapon) {
-	return Item{.name = weapon.name,.value = static_cast<decltype(Item::value)>(weapon.cost), .type = WEAPON };
+	return Item{.name = weapon.name,.value = static_cast<decltype(Item::value)>(weapon.cost), .type =ItemType::Weapon };
 };
-
-std::string toString(const Item& item) {
-  std::ostringstream oss;
-  oss << item.name << " Value: " << item.value;
-  return oss.str();
-}
 
 double rounding(const double value,const RoundingEvent event) {
   //implements game-wide rounding logic

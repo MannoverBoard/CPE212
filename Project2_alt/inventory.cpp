@@ -1,56 +1,42 @@
-#include "inventory.hpp"
-
-#include <string>       // std::string
 #include <iostream>
 #include <sstream>
-
-#include "stuff.h"
+#include "inventory.hpp"
 #include "utilities.h"
 
-// <rant>
-// This to string crud really should be in the struct definitions..
-// </rant>
-const auto DEFAULT_TYPE = POTION;
-const Item DEFAULT_ITEM{"NO NAME",0.,DEFAULT_TYPE};
 
-/**
- * Inventory Constructor
- * Add the following item to the inventory
- * Item:
- *  name : "Basic Health Potion"
- *  value: 10
- *  type: POTION
- */
+INVENTORY_ENUM_MACROS(ENUM_MACRO_DEFINITIONS)
 
-Inventory::Inventory() {
-	length = 0;
-	std::fill(std::begin(items),std::end(items),DEFAULT_ITEM);
-	AddToInventory(Item{"Basic Health Potion",10.,Type::POTION});
+using namespace std;
+
+std::ostream& operator<<(std::ostream& os,const Item& item) {
+  os << "{name: " << quoted11(item.name) <<", value: "<<item.value <<", type:"<<item.type<<"}";
+  return os;
 }
 
-/**
- * AddToInventory Function
- * Function that adds items to the inventory
- */
-// <rant>
-// AGH! why is there no return value, what if there are too many items....
-// how is the caller supposed to know..
-// </rant>
-void Inventory::AddToInventory(Item i) {
-	const auto is_full = (length>=arrayLen(items));
-	if(is_full) { return; }
-	items[length] = i;
-	length++;
+bool Item::operator==(const Item& rhs) const {
+  return ((this->name ==rhs.name ) &&
+          (this->value==rhs.value) &&
+          (this->type ==rhs.type ) );
 }
 
-/**
- * ShowInventory Function
- * Function that shows all items in the inventory
- * @attention Make sure that you format the output string as follows:
- *  Item - <Item Name> Value: <Item Value>
- */
-void Inventory::ShowInventory() const {
-	for(size_t i=0; i<std::max(length,arrayLen(items));++i) {
-		std::cout<<toString(items[i])<<"\n";
-	}
+bool Item::operator!=(const Item& rhs) const {
+  return !((*this)==rhs);
+}
+
+std::string Item::toString() const {
+  std::ostringstream oss;
+  oss<<(*this);
+  return oss.str();
+}
+
+
+void Inventory::ShowInventory(void) const {
+  for(const auto& it: items) { 
+    cout<<it<<"\n";
+  }
+}
+
+Inventory& Inventory::AddToInventory(const Item& it) {
+  items.push_back(it);
+  return (*this);
 }

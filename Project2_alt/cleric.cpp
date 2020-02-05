@@ -4,6 +4,7 @@
 #include "cleric.hpp"
 #include "stuff.h"
 
+using namespace std;
 /**
  * Cleric Class constructor
  * @param characterName The name of the character being created
@@ -29,8 +30,7 @@ const int DEFAULT_CHARACTERISTIC = 10;
 // if weapon is updated how does the inventory get updated!! this is a horrible design
 // </rant>
 Cleric::Cleric(const string& characterName, const Race characterRace) :
-	Character(characterName, characterRace, static_cast<void Character::(Character&)>(&Cleric::Heal)),
-	Inventory{}
+	Character(characterName, characterRace, static_cast<Action>(&Cleric::Heal))
 {
 	Weapon my_weapon = STARTER_WEAPON;
 	willpower = DEFAULT_CHARACTERISTIC;
@@ -39,9 +39,25 @@ Cleric::Cleric(const string& characterName, const Race characterRace) :
 	AddToInventory(toItem(my_weapon));
 }
 
-// <rant>
-// Why are these .cpp comments in a different order than the .h file? Where is the consistency? Not that it matters really
-// </rant>
+/**
+ * Heal Function
+ * Public method of Cleric that heals a target Character
+ * @param target Pointer to the Character to be healed
+ * @attention Follow these instructions:
+ *  1. The heal amount for a Cleric is calculated by the base heal value 10 + half the willpower value
+ *  2. The target Character must heal the amount dealt by the Cleric
+ *  3. Please print out the details of the attack in the following format
+ *      <Character Name> heals <Target Name> for <heal amount> points
+ */
+Character& Cleric::Heal(Character& target) {
+	const int points = rounding(10 + (willpower/2.),RoundingEvent::Player);
+	if(GetVerbosity()>=Verbosity::Info) {
+		cout<< GetName() << " heals " << target.GetName() << " for " << points << " points" << "\n";
+	}
+	target.TakeDamage(-points);
+  return (*this);
+}
+
 
 /**
  * Status Function
@@ -51,11 +67,8 @@ Cleric::Cleric(const string& characterName, const Race characterRace) :
  * @example For the private variable luck which is set to 7 you would print the following
  *      "Luck: 7"
  */
-void Cleric::Status() {
-	Character::Status();
-	if(verbose>=Verbosity::Info) {
-  	std::cout << "Willpower: " << willpower << "\n";
-	}
+void Cleric::Status_() const {
+  cout << "Willpower: " << willpower << "\n";
 }
 
 /**
@@ -68,31 +81,14 @@ void Cleric::Status() {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
  */
-void Cleric::Attack(Character& target) {
+Character& Cleric::Attack_(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + (willpower/2.),RoundingEvent::Player);
+	if(GetVerbosity()>=Verbosity::Info) {
+		cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	}
 	target.TakeDamage(damage);
-	if(verbose>=Verbosity::Info) {
-		std::cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
-	}
+  return (*this);
 }
 
 
-
-/**
- * Heal Function
- * Public method of Cleric that heals a target Character
- * @param target Pointer to the Character to be healed
- * @attention Follow these instructions:
- *  1. The heal amount for a Cleric is calculated by the base heal value 10 + half the willpower value
- *  2. The target Character must heal the amount dealt by the Cleric
- *  3. Please print out the details of the attack in the following format
- *      <Character Name> heals <Target Name> for <heal amount> points
- */
-void Cleric::Heal(Character& target) {
-	const int points = rounding(10 + (willpower/2.),RoundingEvent::Player);
-	target.TakeDamage(-points);
-	if(verbose>=Verbosity::Info) {
-		std::cout<< GetName() << " heals " << target.GetName() << " for " << points << " points" << "\n";
-	}
-}

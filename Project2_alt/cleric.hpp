@@ -1,17 +1,16 @@
 /**
  * cleric.hpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
-#include "character.hpp"
-#include "inventory.hpp"
 
 #ifndef CLERIC_H
 #define CLERIC_H
 
+#include "character.hpp"
+#include "inventory.hpp"
 
-class Cleric: public Character, public Inventory
+
+class Cleric: public Character
 {
-private:
-    int willpower;
 public:
     /**
      * Cleric Class constructor
@@ -28,17 +27,8 @@ public:
      *  Add the weapon to the Clerics inventory
      *  Assign a value of 10 for the base Cleric characteristic
      */
-    Cleric(const string& characterName, const Race characterRace);
-    /**
-     * Public method of Cleric that attacks an target Character
-     * @param target Pointer to the target Character
-     * @attention Follow these instructions:
-     *  1. The damage for a Cleric is calculated by the weapon damage + half the willpower value
-     *  2. The target Character must take the damage dealt by the Cleric
-     *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
-     */
-    void Attack(Character& target);
+    Cleric(const std::string& characterName, const Race characterRace);
+
     /**
      * Public method of Cleric that heals a target Character
      * @param target Pointer to the Character to be healed
@@ -48,7 +38,19 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> heals <Target Name> for <heal amount> points
      */
-    void Heal(Character& target);
+    Character& Heal(Character& target);
+
+protected:
+    /**
+     * Public method of Cleric that attacks an target Character
+     * @param target Pointer to the target Character
+     * @attention Follow these instructions:
+     *  1. The damage for a Cleric is calculated by the weapon damage + half the willpower value
+     *  2. The target Character must take the damage dealt by the Cleric
+     *  3. Please print out the details of the attack in the following format
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
+     */
+    Character& Attack_(Character& target) override;
     /**
      * Public method Status that prints out the Status of the Cleric
      * @attention You MUST print out the local Cleric variables.
@@ -56,7 +58,10 @@ public:
      * @example For the private variable luck which is set to 7 you would print the following
      *      "Luck: 7"
      */
-    void Status();
+    virtual void Status_() const override;
+
+private:
+    int willpower;
 };
 
 

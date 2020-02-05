@@ -1,39 +1,42 @@
-#include <string>
-#include <iostream>
-#include <fstream>
-
-using namespace std;
-
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-const unsigned int MAX_SLOTS = 10;
+#include <string>
+#include <ostream>
+#include <vector>
+#include "macros.h"
 
-enum Type
-{
-    POTION = 0,
-    WEAPON = 1,
-    ARMOR = 2,
-    ACCESSORY = 3
-};
+#define MACRO_ItemType_attributes(callback,...) \
+  EVAL(callback(ItemType, 0, EMPTY(), 0, __VA_ARGS__))
+#define MACRO_ItemType_members(callback,...) \
+  EVAL(callback(ItemType,Potion   , EMPTY(), __VA_ARGS__)) \
+  EVAL(callback(ItemType,Weapon   , EMPTY(), __VA_ARGS__)) \
+  EVAL(callback(ItemType,Armor    , EMPTY(), __VA_ARGS__)) \
+  EVAL(callback(ItemType,Accessory, EMPTY(), __VA_ARGS__))
+
+#define INVENTORY_ENUM_MACROS(callback,...) \
+  EVAL(callback(ItemType ,__VA_ARGS__))
+INVENTORY_ENUM_MACROS(ENUM_MACRO_DECLARATIONS)
 
 struct Item
 {
-    string name;
-    float value;
-    Type type;
+  std::string name;
+  float value;
+  ItemType type;
+  friend std::ostream& operator<<(std::ostream& os,const Item& item);
+  std::string toString() const;
+  bool operator==(const Item& rhs) const;
+  bool operator!=(const Item& rhs) const;
 };
 
 
 class Inventory
 {
-private:
-    Item items[MAX_SLOTS];
-    int length;
 public:
-    Inventory();
-    void AddToInventory(Item i);
-    void ShowInventory() const;
+  void ShowInventory() const;
+  Inventory& AddToInventory(const Item& i);
+private:
+  std::vector<Item> items{};
 };
 
 #endif

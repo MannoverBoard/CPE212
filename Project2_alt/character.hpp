@@ -61,48 +61,59 @@ struct Weapon {
 
 class Character
 {
-private:
-    std::string name{};    // Name of the character
-    std::string job{};     // Job of the character: Valid jobs are: "Warrior", "Mage", "Rogue" and "Cleric"
-    Race race{Race::Human};      // Race is defined in the above enum
-    Weapon weapon{};  // The weapon of the Character
-    int health{0};     // Amount of health the Character has available. This is different for each job.
-    int level{0};      // The level of the Character
-    int exp{0};        // Experience of the Character. As this increases so does the Character's level
-    Inventory inv{};
-    std::function<void(Character&)> special_attack;
-protected:
-    Verbosity verbose{Verbosity::Info};
 public:
-    // Constructors
-    Character(const std::string& characterName, const Race characterRace,
-      std::function<void(Character&)> special);
+  // Observers
+  std::string GetName() const;
+  Race GetRace() const;
+  int GetLevel() const;
+  Weapon GetWeapon() const;
+  int GetExp() const;
+  std::string GetJob() const;
+  int GetHealth() const;
+  Verbosity GetVerbosity() const;
 
-    // Observers
-    std::string GetName() const;
-    Race GetRace() const;
-    int GetLevel() const;
-    Weapon GetWeapon() const;
-    int GetExp() const;
-    std::string GetJob() const;
-    int GetHealth() const;
-    void ShowInventory() const;
+  // Transformers
+  Character& AddExp      (const int amount    );
+  Character& SetHealth   (const int h         );
+  Character& SetJob      (const std::string& j);
+  Character& TakeDamage  (const int h         );
+  Character& SetVerbosity(const Verbosity verb);
+  Character& SetWeapon   (const Weapon& w     );
 
-    // Transformers
-    void AddExp(const int amount);
-    void SetHealth(const int h);
-    void SetJob(const std::string& j);
-    void TakeDamage(const int h);
+  Character& AddToInventory(const Item& item);
 
-    void Attack       (std::shared_ptr<Character>& target);
-    void SpecialAttack(std::shared_ptr<Character>& target);
-    void SpecialAttack(Character& target);
+  //Show-ers
+  void ShowInventory() const;
+  void Status() const;
+  
+  //Actions
+  Character& Attack       (Character& target);
+  Character& Attack       (std::shared_ptr<Character>& target);
+  Character& SpecialAttack(Character& target);
+  Character& SpecialAttack(std::shared_ptr<Character>& target);
+protected:
+  using Action = Character& (Character::*)(Character&);
+  
+  // Constructors
+  Character(const std::string& characterName, const Race characterRace,
+    Action action);
 
-    // Virtual Methods
-    virtual void SetWeapon(const Weapon& w);
-    virtual void Status() const;
+  // Pure Virtual Methods
+  virtual Character& Attack_(Character& target) = 0;
+  virtual void Status_() const = 0;
 
-    // Pure Virtual Methods
-    virtual void Attack(Character& target) = 0;
+private:
+  std::string name{};    // Name of the character
+  std::string job{};     // Job of the character: Valid jobs are: "Warrior", "Mage", "Rogue" and "Cleric"
+  Race race{Race::Human};      // Race is defined in the above enum
+  Weapon weapon{};  // The weapon of the Character
+  int health{0};     // Amount of health the Character has available. This is different for each job.
+  int level{0};      // The level of the Character
+  int exp{0};        // Experience of the Character. As this increases so does the Character's level
+  Inventory inv{};
+  Action special_attack;
+  Verbosity verbose{Verbosity::Info};
 };
+
+
 #endif // End of CHARACTER_H

@@ -1,15 +1,14 @@
 /**
  * warrior.hpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
-#include "character.hpp"
-#include "inventory.hpp"
 #ifndef WARRIOR_H
 #define WARRIOR_H
 
-class Warrior : public Character, public Inventory
+#include "character.hpp"
+#include "inventory.hpp"
+
+class Warrior : public Character
 {
-private:
-    int strength;
 public:
     /**
      * Warrior Class constructor
@@ -26,17 +25,7 @@ public:
      *  Add the weapon to the Warriors inventory
      *  Assign a value of 10 for the base Warrior characteristic
      */
-    Warrior(const string& characterName, const Race characterRace);
-    /**
-     * Public method of Warrior that attacks an target Character
-     * @param target Pointer to the target Character
-     * @attention Follow these instructions:
-     *  1. The damage for a Warrior is calculated by the weapon damage + half the strength value
-     *  2. The target Character must take the damage dealt by the Warrior
-     *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
-     */
-    void Attack(Character& target);
+    Warrior(const std::string& characterName, const Race characterRace);
     /**
      * Public method of Warrior that deals a Power Attack to a target Character
      * @param target Pointer to the Character to be attacked
@@ -46,7 +35,18 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> Power Attacks <Target Name> for <damage amount> points
      */
-    void PowerAttack(Character& target);
+    Character& PowerAttack(Character& target);
+protected:
+    /**
+     * Public method of Warrior that attacks an target Character
+     * @param target Pointer to the target Character
+     * @attention Follow these instructions:
+     *  1. The damage for a Warrior is calculated by the weapon damage + half the strength value
+     *  2. The target Character must take the damage dealt by the Warrior
+     *  3. Please print out the details of the attack in the following format
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
+     */
+    virtual Character& Attack_(Character& target) override;
     /**
      * Public method Status that prints out the Status of the Warrior
      * @attention You MUST print out the local Warrior variables.
@@ -54,7 +54,9 @@ public:
      * @example For the private variable luck which is set to 7 you would print the following
      *      "Luck: 7"
      */
-    void Status();
+    virtual void Status_() const override;
+private:
+    int strength;
 };
 
 #endif //WARRIOR_H

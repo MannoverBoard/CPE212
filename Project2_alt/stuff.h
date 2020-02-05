@@ -27,8 +27,6 @@
   EVAL(callback(RoundingEvent,__VA_ARGS__))
 STUFF_ENUM_MACROS(ENUM_MACRO_DECLARATIONS)
 
-std::string toString(const Type type);
-
 Item toItem(const Weapon& weapon);
 double rounding(const double value,const RoundingEvent event=RoundingEvent::Unknown);//implements game-wide rounding logic
 

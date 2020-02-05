@@ -1,15 +1,13 @@
 /**
  * mage.hpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
-#include "character.hpp"
-#include "inventory.hpp"
 #ifndef MAGE_H
 #define MAGE_H
 
-class Mage : public Character, public Inventory
+#include "character.hpp"
+
+class Mage : public Character
 {
-private:
-    int intelligence;
 public:
     /**
      * Mage Class constructor
@@ -26,17 +24,7 @@ public:
      *  Add the weapon to the Mage inventory
      *  Assign a value of 10 for the base Mage characteristic
      */
-    Mage(const string& characterName, Race& characterRace);
-    /**
-     * Public method of Mage that attacks an target Character
-     * @param target Pointer to the target Character
-     * @attention Follow these instructions:
-     *  1. The damage for a Mage is calculated by the weapon damage + half the intelligence value
-     *  2. The target Character must take the damage dealt by the Mage
-     *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
-     */
-    void Attack(Character& target);
+    Mage(const std::string& characterName, const Race characterRace);
     /**
      * Public method of Mage that sends a Fireball at an target Character
      * @param target Pointer to the target Character
@@ -46,7 +34,18 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> attacks <Target Name> with a Fireball for <damage> points
      */
-    void Fireball(Character& target);
+    Character& Fireball(Character& target);
+protected:
+    /**
+     * Public method of Mage that attacks an target Character
+     * @param target Pointer to the target Character
+     * @attention Follow these instructions:
+     *  1. The damage for a Mage is calculated by the weapon damage + half the intelligence value
+     *  2. The target Character must take the damage dealt by the Mage
+     *  3. Please print out the details of the attack in the following format
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
+     */
+    virtual Character& Attack_(Character& target) override;
     /**
      * Public method Status that prints out the Status of the Mage
      * @attention You MUST print out the local Mage variables.
@@ -54,7 +53,9 @@ public:
      * @example For the private variable luck which is set to 7 you would print the following
      *      "Luck: 7"
      */
-    void Status();
+    virtual void Status_() const override;
+private:
+    int intelligence;
 };
 
 #endif //MAGE_H

@@ -32,8 +32,8 @@ bool Weapon::operator!=(const Weapon&rhs) const {
 }
 
 Character::Character(const std::string& characterName, const Race characterRace,
-	std::function<void(Character&)> special) :
-	name(characterName), race(characterRace), special_attack(special)
+  Action act) :
+	name(characterName), race(characterRace), special_attack(act)
 { }
 
 
@@ -41,31 +41,47 @@ Character::Character(const std::string& characterName, const Race characterRace,
 // also what the heck, why are the observer getters given in a different order
 // than the private members...
 // Implement the Observers here
-std::string Character::GetName  () const { return name  ; }
-std::string Character::Character::GetJob   () const { return job   ; }
-Race        Character::Character::GetRace  () const { return race  ; }
-Weapon      Character::Character::GetWeapon() const { return weapon; }
-int         Character::Character::GetHealth() const { return health; }
-int         Character::Character::GetLevel () const { return level ; }
-int         Character::Character::GetExp   () const { return exp   ; }
+std::string Character::GetName     () const { return name   ; }
+std::string Character::GetJob      () const { return job    ; }
+Race        Character::GetRace     () const { return race   ; }
+Weapon      Character::GetWeapon   () const { return weapon ; }
+int         Character::GetHealth   () const { return health ; }
+int         Character::GetLevel    () const { return level  ; }
+int         Character::GetExp      () const { return exp    ; }
+Verbosity   Character::GetVerbosity() const { return verbose; }
 
 // Implement the Transformers here
-void Character::AddExp(const int amount) {
+Character& Character::AddExp(const int amount) {
 	//TODO QUESTION: Can experience be negative? I will assume not for now
 	exp += std::max(amount,0);
+  return (*this);
 }
 
-void Character::SetHealth(const int h) {
+Character& Character::SetHealth(const int h) {
 	//TODO QUESTION: Can health be negative? If given an invalid value should an exception be thrown?
 	health = std::max(h,0);
+  return (*this);
 }
-void Character::SetJob(const string& j) {
+
+Character& Character::SetJob(const string& j) {
 	job = j;
+  return (*this);
 }
 
 // Virtual Methods
-void Character::SetWeapon(const Weapon& w) {
+Character& Character::SetWeapon(const Weapon& w) {
 	weapon = w;
+  return (*this);
+}
+
+Character& Character::SetVerbosity(const Verbosity verb) {
+  verbose = verb;
+  return (*this);
+}
+
+Character& Character::AddToInventory(const Item& item) {
+  inv.AddToInventory(item);
+  return (*this);
 }
 
 /**
@@ -73,42 +89,50 @@ void Character::SetWeapon(const Weapon& w) {
  * @param damage The amount of damage taken by the Character
  * @attention DO NOT MODIFY
  */
-void Character::TakeDamage(const int damage) {
-		SetHealth(health-damage);
-		if(verbose>=Verbosity::Info) {
-	    cout << name << " takes " << damage << " points of damage." << endl;
-	    if (health<0) {//TODO this may be an error is <0 dead or <=0 dead?
-	        cout << name << " has died." << endl;
-	    }
-		}
+Character& Character::TakeDamage(const int damage) {
+  SetHealth(health-damage);
+  if(verbose>=Verbosity::Info) {
+    cout << name << " takes " << damage << " points of damage." << endl;
+    if (health<=0) {
+      //TODO this may be an error is <0 dead or <=0 dead?
+      cout << name << " has died." << endl;
+    }
+  }
+  return (*this);
 }
 
 void Character::ShowInventory() const {
 	this->inv.ShowInventory();
 }
 
-void Character::SpecialAttack(std::shared_ptr<Character>& target) {
-	if(target==nullptr) { return; }
-	SpecialAttack(*target.get());
+Character& Character::Attack(std::shared_ptr<Character>& target) {
+	if(target==nullptr) { return (*this); }
+	return Attack(*target.get());
 }
 
-void Character::Attack(std::shared_ptr<Character>& target) {
-	if(target==nullptr) { return; }
-	Attack(*target.get());
+Character& Character::Attack(Character& target) {
+  return Attack_(target);
 }
 
-void Character::SpecialAttack(Character& target) {
-	return this->*special_attack(target);
+Character& Character::SpecialAttack(std::shared_ptr<Character>& target) {
+	if(target==nullptr) { return (*this); }
+	return SpecialAttack(*target.get());
 }
+
+Character& Character::SpecialAttack(Character& target) {
+	return (this->*special_attack)(target);
+}
+
 /**
  * Public method to print the base Character's Status
  * @attention DO NOT MODIFY
  */
 void Character::Status() const {
-    cout << job << " Status" << endl;
-    cout << "Name: " << name << endl;
-    cout << "Race: " << race << endl;
-    cout << "Level: " << level << endl;
-    cout << "Exp: " << exp << endl;
-    cout << "Health: " << health << endl;
+  cout << job << " Status" << endl;
+  cout << "Name: " << name << endl;
+  cout << "Race: " << race << endl;
+  cout << "Level: " << level << endl;
+  cout << "Exp: " << exp << endl;
+  cout << "Health: " << health << endl;
+  Status_();
 }
