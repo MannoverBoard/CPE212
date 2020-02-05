@@ -10,11 +10,11 @@
 #define EVAL_05(...) EVAL_04(EVAL_04(EVAL_04(__VA_ARGS__)))
 #define EVAL(...)    EVAL_05(EVAL_05(EVAL_05(__VA_ARGS__)))
 
-#define MACRO_COMMA ,
 #define EMPTY()
 #define EAT(...)
 #define DEFER(...) EMPTY()__VA_ARGS__
 #define OBSTRUCT(...) __VA_ARGS__ DEFER(EMPTY)()
+#define MACRO_COMMA ,
 
 #define MACRO_CAT(a, ...) MACRO_PRIMITIVE_CAT(a, __VA_ARGS__)
 #define MACRO_PRIMITIVE_CAT(a, ...) a ## __VA_ARGS__
@@ -46,7 +46,7 @@
 
 //////////////////////////////
 #define ENUM_MACRO_DECLARATIONS__CALLBACK(EnumName,name,value,...) \
-  IFF(GET_ENUM_ATTR_HAS_VALUES(EnumName))(name=value MACRO_COMMA, name MACRO_COMMA)
+  IFF(GET_ENUM_ATTR_HAS_VALUES(EnumName))(name=value MACRO_COMMA , name MACRO_COMMA )
 
 #define ENUM_MACRO_DECLARATIONS(EnumName,...) \
 IFF(GET_ENUM_ATTR_HAS_SCOPE(EnumName))(namespace GET_ENUM_ATTR_SCOPE(EnumName) {,EMPTY()) \

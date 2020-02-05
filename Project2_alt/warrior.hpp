@@ -26,17 +26,17 @@ public:
      *  Add the weapon to the Warriors inventory
      *  Assign a value of 10 for the base Warrior characteristic
      */
-    Warrior(string characterName, Race characterRace);
+    Warrior(const string& characterName, const Race characterRace);
     /**
-     * Public method of Warrior that attacks an enemy Character
-     * @param enemy Pointer to the enemy Character
+     * Public method of Warrior that attacks an target Character
+     * @param target Pointer to the target Character
      * @attention Follow these instructions:
      *  1. The damage for a Warrior is calculated by the weapon damage + half the strength value
-     *  2. The enemy Character must take the damage dealt by the Warrior
+     *  2. The target Character must take the damage dealt by the Warrior
      *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
      */
-    void Attack(Character * target);
+    void Attack(Character& target);
     /**
      * Public method of Warrior that deals a Power Attack to a target Character
      * @param target Pointer to the Character to be attacked
@@ -46,7 +46,7 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> Power Attacks <Target Name> for <damage amount> points
      */
-    void PowerAttack(Character * target);
+    void PowerAttack(Character& target);
     /**
      * Public method Status that prints out the Status of the Warrior
      * @attention You MUST print out the local Warrior variables.

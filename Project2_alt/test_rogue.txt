@@ -16,11 +16,11 @@ b
 s g
 b
 
-# The Goblin enemy sneak attacks
+# The Goblin target sneak attacks
 a g s r
 b
 
-# The Goblin enemy regular attacks
+# The Goblin target regular attacks
 a g a r
 b
 

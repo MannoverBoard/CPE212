@@ -25,7 +25,7 @@
 
 #define PROJECT_01_ENUM_MACROS(callback,...) \
   EVAL(callback(Direction,__VA_ARGS__)) \
-  EVAL(callback(Rotation,__VA_ARGS__))
+  EVAL(callback(Rotation ,__VA_ARGS__))
 PROJECT_01_ENUM_MACROS(ENUM_MACRO_DECLARATIONS)
 
 using Image = int[15][15];

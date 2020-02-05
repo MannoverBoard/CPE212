@@ -2,35 +2,40 @@
  * character.cpp - CPE 212-01, Spring 2020 - Project02 - Class Inheritance
  */
 #include "character.hpp"
-#include "stuff.h"
+#include "macros.h"
 
-// THIS is dumb, this stuff *SHOULD* be in the .h file, but since I can't
-// modify that file, it goes here. >:(
-const std::string DEFAULT_NAME = "NO NAME";
-const std::string DEFAULT_JOB = "NO JOB";
-const Race        DEFAULT_RACE = Race::HUMAN;
-const Weapon      DEFAULT_WEAPON{DEFAULT_NAME,0,0};
-const int         DEFAULT_HEALTH{0};
-const int         DEFAULT_LEVEL{0};
-const int         DEFAULT_EXPERIENCE{0};
+#include <sstream>
 
-// Implement the Constructors here
-Character::Character() :
-	name(DEFAULT_NAME),
-	job(DEFAULT_JOB),
-	race(DEFAULT_RACE),
-	weapon(DEFAULT_WEAPON),
-	health(DEFAULT_HEALTH),
-	level(DEFAULT_LEVEL),
-	exp(DEFAULT_EXPERIENCE)
-{}
+using namespace std;
 
-Character::Character(string characterName, Race characterRace) :
-	Character{}
-{
-	name = characterName;
-	race = characterRace;
+PROJECT_02_ENUM_MACROS(ENUM_MACRO_DEFINITIONS)
+
+ostream& operator<<(ostream& os, const Weapon& self) {
+	os << "{name:" << quoted11(self.name) << ", damage:" << self.damage << ", cost:" << self.cost << "}";
+	return os;
 }
+
+std::string Weapon::toString() const {
+	std::ostringstream oss;
+	oss<<(*this);
+	return oss.str();
+}
+
+bool Weapon::operator==(const Weapon&rhs) const{
+	return ((this->name  ==rhs.name  ) &&
+          (this->damage==rhs.damage) &&
+				  (this->cost  ==rhs.cost  ));
+}
+
+bool Weapon::operator!=(const Weapon&rhs) const {
+	return !((*this)==rhs);
+}
+
+Character::Character(const std::string& characterName, const Race characterRace,
+	std::function<void(Character&)> special) :
+	name(characterName), race(characterRace), special_attack(special)
+{ }
+
 
 // These are const getters, these really could be given in the .h  file :/
 // also what the heck, why are the observer getters given in a different order
@@ -45,20 +50,21 @@ int         Character::Character::GetLevel () const { return level ; }
 int         Character::Character::GetExp   () const { return exp   ; }
 
 // Implement the Transformers here
-void Character::AddExp(int amount) {
+void Character::AddExp(const int amount) {
 	//TODO QUESTION: Can experience be negative? I will assume not for now
-	exp += (amount>0)?amount:0;
+	exp += std::max(amount,0);
 }
-void Character::SetHealth(int h) {
+
+void Character::SetHealth(const int h) {
 	//TODO QUESTION: Can health be negative? If given an invalid value should an exception be thrown?
-	health = (h>=0)?h:0;
+	health = std::max(h,0);
 }
-void Character::SetJob(string j) {
+void Character::SetJob(const string& j) {
 	job = j;
 }
 
 // Virtual Methods
-void Character::SetWeapon(Weapon w) {
+void Character::SetWeapon(const Weapon& w) {
 	weapon = w;
 }
 
@@ -67,27 +73,41 @@ void Character::SetWeapon(Weapon w) {
  * @param damage The amount of damage taken by the Character
  * @attention DO NOT MODIFY
  */
-void Character::TakeDamage(int damage) {
-    cout << name << " takes " << damage << " points of damage." << endl;
-    if ((health - damage) < 0)
-    {
-        cout << name << " has died." << endl;
-        health = 0;
-    }
-    else 
-    {
-        health -= damage;
-    }
+void Character::TakeDamage(const int damage) {
+		SetHealth(health-damage);
+		if(verbose>=Verbosity::Info) {
+	    cout << name << " takes " << damage << " points of damage." << endl;
+	    if (health<0) {//TODO this may be an error is <0 dead or <=0 dead?
+	        cout << name << " has died." << endl;
+	    }
+		}
 }
 
+void Character::ShowInventory() const {
+	this->inv.ShowInventory();
+}
+
+void Character::SpecialAttack(std::shared_ptr<Character>& target) {
+	if(target==nullptr) { return; }
+	SpecialAttack(*target.get());
+}
+
+void Character::Attack(std::shared_ptr<Character>& target) {
+	if(target==nullptr) { return; }
+	Attack(*target.get());
+}
+
+void Character::SpecialAttack(Character& target) {
+	return this->*special_attack(target);
+}
 /**
  * Public method to print the base Character's Status
  * @attention DO NOT MODIFY
  */
-void Character::Status() {
+void Character::Status() const {
     cout << job << " Status" << endl;
     cout << "Name: " << name << endl;
-    cout << "Race: " << toString(race) << endl;
+    cout << "Race: " << race << endl;
     cout << "Level: " << level << endl;
     cout << "Exp: " << exp << endl;
     cout << "Health: " << health << endl;

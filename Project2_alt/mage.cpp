@@ -3,7 +3,6 @@
  */
 #include "mage.hpp"
 #include "stuff.h"
-
 /**
  * Mage Class constructor
  * @param characterName The name of the character being created
@@ -23,9 +22,10 @@ const int DEFAULT_HEALTH = 50;
 const Weapon STARTER_WEAPON{.name="Simple Staff", .damage=5, .cost=100 };
 const int DEFAULT_CHARACTERISTIC = 10;
 
-Mage::Mage(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+Mage::Mage(const string& characterName, const Race characterRace) :
+	Character(characterName, characterRace, &Mage::FireBall), Inventory{}
 {
-	Weapon my_weapon = STARTER_WEAPON;
+	const auto& my_weapon = STARTER_WEAPON;
 	intelligence = DEFAULT_CHARACTERISTIC;
 	SetHealth(DEFAULT_HEALTH);
 	SetWeapon(my_weapon);
@@ -33,37 +33,39 @@ Mage::Mage(string characterName, Race characterRace): Character(characterName, c
 }
 
 /**
- * Public method of Mage that attacks an enemy Character
- * @param enemy Pointer to the enemy Character
+ * Public method of Mage that attacks an target Character
+ * @param target Pointer to the target Character
  * @attention Follow these instructions:
  *  1. The damage for a Mage is calculated by the weapon damage + half the intelligence value
- *  2. The enemy Character must take the damage dealt by the Mage
+ *  2. The target Character must take the damage dealt by the Mage
  *  3. Please print out the details of the attack in the following format
- *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+ *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
  */
-void Mage::Attack(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Mage::Attack(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + (intelligence/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	}
 }
 
 /**
- * Public method of Mage that sends a Fireball at an enemy Character
- * @param enemy Pointer to the enemy Character
+ * Public method of Mage that sends a Fireball at an target Character
+ * @param target Pointer to the target Character
  * @attention Follow these instructions:
  *  1. The damage for a Fireball is calculated by the base damage 10 + weapon damage + half the intelligence value
- *  2. The enemy Character must take the damage dealt by the Mage
+ *  2. The target Character must take the damage dealt by the Mage
  *  3. Please print out the details of the attack in the following format
- *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
+ *      <Character Name> attacks <Target Name> with a Fireball for <damage> points
  */
-void Mage::Fireball(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Mage::Fireball(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(10 + weapon.damage + (intelligence/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with a Fireball for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " attacks " << target.GetName() << " with a Fireball for " << damage << " points" << "\n";
+	}
 }
 
 /**
@@ -74,6 +76,8 @@ void Mage::Fireball(Character * enemy) {
  *      "Luck: 7"
  */
 void Mage::Status() {
-  std::cout << "Intelligence: " << intelligence << "\n";
+	Character::Status();
+	if(verbose>=Verbosity::Info) {
+		std::cout << "Intelligence: " << intelligence << "\n";
+	}
 }
-

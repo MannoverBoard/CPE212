@@ -23,9 +23,10 @@ const int DEFAULT_HEALTH = 150;
 const Weapon STARTER_WEAPON{.name="Starter Longsword", .damage=10, .cost=100 };
 const int DEFAULT_CHARACTERISTIC = 10;
 
-Warrior::Warrior(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+Warrior::Warrior(const string& characterName, const Race characterRace):
+	Character(characterName, characterRace, &Warrior::PowerAttack), Inventory{}
 {
-	Weapon my_weapon = STARTER_WEAPON;
+	const auto& my_weapon = STARTER_WEAPON;
 	strength = DEFAULT_CHARACTERISTIC;
 	SetHealth(DEFAULT_HEALTH);
 	SetWeapon(my_weapon);
@@ -33,20 +34,21 @@ Warrior::Warrior(string characterName, Race characterRace): Character(characterN
 }
 
 /**
- * Public method of Warrior that attacks an enemy Character
- * @param enemy Pointer to the enemy Character
+ * Public method of Warrior that attacks an target Character
+ * @param target Pointer to the target Character
  * @attention Follow these instructions:
  *  1. The damage for a Warrior is calculated by the weapon damage + half the strength value
- *  2. The enemy Character must take the damage dealt by the Warrior
+ *  2. The target Character must take the damage dealt by the Warrior
  *  3. Please print out the details of the attack in the following format
- *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+ *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
  */
-void Warrior::Attack(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Warrior::Attack(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + (strength/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	}
 }
 
 /**
@@ -58,12 +60,13 @@ void Warrior::Attack(Character * enemy) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
-void Warrior::PowerAttack(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Warrior::PowerAttack(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(GetHealth()/100.*(weapon.damage + (strength/2.)),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " Power Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " Power Attacks " << target.GetName() << " for " << damage << " points" << "\n";
+	}
 }
 
 /**
@@ -74,9 +77,8 @@ void Warrior::PowerAttack(Character * enemy) {
  *      "Luck: 7"
  */
 void Warrior::Status() {
-  std::cout << "Strength: " << strength << "\n";
+	Character::Status();
+  if(verbose>=Verbosity::Info) {
+		std::cout << "Strength: " << strength << "\n";
+	}
 }
-
-
-
-

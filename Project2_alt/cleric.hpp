@@ -28,17 +28,17 @@ public:
      *  Add the weapon to the Clerics inventory
      *  Assign a value of 10 for the base Cleric characteristic
      */
-    Cleric(string characterName, Race characterRace);
+    Cleric(const string& characterName, const Race characterRace);
     /**
-     * Public method of Cleric that attacks an enemy Character
-     * @param enemy Pointer to the enemy Character
+     * Public method of Cleric that attacks an target Character
+     * @param target Pointer to the target Character
      * @attention Follow these instructions:
      *  1. The damage for a Cleric is calculated by the weapon damage + half the willpower value
-     *  2. The enemy Character must take the damage dealt by the Cleric
+     *  2. The target Character must take the damage dealt by the Cleric
      *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
      */
-    void Attack(Character * enemy);
+    void Attack(Character& target);
     /**
      * Public method of Cleric that heals a target Character
      * @param target Pointer to the Character to be healed
@@ -48,7 +48,7 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> heals <Target Name> for <heal amount> points
      */
-    void Heal(Character * target);
+    void Heal(Character& target);
     /**
      * Public method Status that prints out the Status of the Cleric
      * @attention You MUST print out the local Cleric variables.

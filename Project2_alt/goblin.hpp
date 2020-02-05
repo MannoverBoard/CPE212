@@ -26,17 +26,17 @@ public:
      *  Add the weapon to the Goblins inventory
      *  Assign a value of 2 for the base Goblin characteristic
      */
-    Goblin(string characterName, Race characterRace);
+    Goblin(const string& characterName, const Race characterRace);
     /**
-     * Public method of Goblin that attacks an enemy Character
-     * @param enemy Pointer to the enemy Character
+     * Public method of Goblin that attacks an target Character
+     * @param target Pointer to the target Character
      * @attention Follow these instructions:
      *  1. The damage for a Goblin is calculated by the weapon damage + half the attack value
-     *  2. The enemy Character must take the damage dealt by the Goblin
+     *  2. The target Character must take the damage dealt by the Goblin
      *  3. Please print out the details of the attack in the following format
-     *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+     *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
      */
-    void Attack(Character * target);
+    void Attack(Character& target);
     /**
      * Public method of Goblin that Sneak Attacks a target Character
      * @param target Pointer to the Character to be healed
@@ -46,7 +46,7 @@ public:
      *  3. Please print out the details of the attack in the following format
      *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
      */
-    void SneakAttack(Character * target);
+    void SneakAttack(Character& target);
     /**
      * Public method Status that prints out the Status of the Goblin
      * @attention You MUST print out the local Goblin variables.

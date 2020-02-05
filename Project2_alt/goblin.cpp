@@ -23,9 +23,10 @@ const int DEFAULT_HEALTH = 30;
 const Weapon STARTER_WEAPON{.name="Pointy Stick", .damage=3, .cost=1 };
 const int DEFAULT_CHARACTERISTIC = 2;
 
-Goblin::Goblin(string characterName, Race characterRace): Character(characterName, characterRace), Inventory{}
+Goblin::Goblin(const string& characterName, const Race characterRace) :
+	Character(characterName, characterRace, &Goblin::SneakAttack), Inventory{}
 {
-	Weapon my_weapon = STARTER_WEAPON;
+	const auto& my_weapon = STARTER_WEAPON;
 	attack = DEFAULT_CHARACTERISTIC;
 	SetHealth(DEFAULT_HEALTH);
 	SetWeapon(my_weapon);
@@ -34,22 +35,22 @@ Goblin::Goblin(string characterName, Race characterRace): Character(characterNam
 
 /**
  * Attack Function
- * Public method of Goblin that attacks an enemy Character
- * @param enemy Pointer to the enemy Character
+ * Public method of Goblin that attacks an target Character
+ * @param target Pointer to the target Character
  * @attention Follow these instructions:
  *  1. The damage for a Goblin is calculated by the weapon damage + half the attack value
- *  2. The enemy Character must take the damage dealt by the Goblin
+ *  2. The target Character must take the damage dealt by the Goblin
  *  3. Please print out the details of the attack in the following format
- *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+ *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
  */
-void Goblin::Attack(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Goblin::Attack(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + (attack/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	}
 }
-
 /**
  * Sneak Attack Function
  * Public method of Goblin that Sneak Attacks a target Character
@@ -60,12 +61,13 @@ void Goblin::Attack(Character * enemy) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
-void Goblin::SneakAttack(Character * enemy) {
-	if(enemy==nullptr) { return; }
+void Goblin::SneakAttack(Character&  target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + 20 + (attack/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " Sneak Attacks " << enemy->GetName() << " for " << damage << " points" << "\n";
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " Sneak Attacks " << target.GetName() << " for " << damage << " points" << "\n";
+	}
 }
 
 /**
@@ -77,7 +79,8 @@ void Goblin::SneakAttack(Character * enemy) {
  *      "Luck: 7"
  */
 void Goblin::Status() {
-  std::cout << "Attack: " << attack << "\n";
+	Character::Status();
+	if(verbose>=Verbosity::Info) {
+	  std::cout << "Attack: " << attack << "\n";
+	}
 }
-
-

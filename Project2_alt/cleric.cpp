@@ -25,10 +25,12 @@ const int DEFAULT_CHARACTERISTIC = 10;
 
 // <rant>
 // the cleric *has* an inventory, it isn't AN inventory...whatever...
-// Also the fact that data is duplicated with the whole weapon inventory thing.. 
+// Also the fact that data is duplicated with the whole weapon inventory thing..
 // if weapon is updated how does the inventory get updated!! this is a horrible design
 // </rant>
-Cleric::Cleric(string characterName, Race characterRace): Character(characterName,characterRace), Inventory{}
+Cleric::Cleric(const string& characterName, const Race characterRace) :
+	Character(characterName, characterRace, static_cast<void Character::(Character&)>(&Cleric::Heal)),
+	Inventory{}
 {
 	Weapon my_weapon = STARTER_WEAPON;
 	willpower = DEFAULT_CHARACTERISTIC;
@@ -50,32 +52,34 @@ Cleric::Cleric(string characterName, Race characterRace): Character(characterNam
  *      "Luck: 7"
  */
 void Cleric::Status() {
-  std::cout << "Willpower: " << willpower << "\n";
+	Character::Status();
+	if(verbose>=Verbosity::Info) {
+  	std::cout << "Willpower: " << willpower << "\n";
+	}
 }
 
-/** 
+/**
  * Attack Function
- * Public method of Cleric that attacks an enemy Character
- * @param enemy Pointer to the enemy Character
+ * Public method of Cleric that attacks an target Character
+ * @param target Pointer to the target Character
  * @attention Follow these instructions:
  *  1. The damage for a Cleric is calculated by the weapon damage + half the willpower value
- *  2. The enemy Character must take the damage dealt by the Cleric
+ *  2. The target Character must take the damage dealt by the Cleric
  *  3. Please print out the details of the attack in the following format
- *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
+ *      <Character Name> attacks <Target Name> with <Character's Weapon Name> for <damage> points
  */
-void Cleric::Attack(Character * enemy) {
-	if(enemy==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+void Cleric::Attack(Character& target) {
 	const auto weapon = GetWeapon();
 	const int damage = rounding(weapon.damage + (willpower/2.),RoundingEvent::Player);
-	enemy->TakeDamage(damage);
-	std::cout<< GetName() << " attacks " << enemy->GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
-	//TODO PRINTING: what is the convention here for trailing newlines.
+	target.TakeDamage(damage);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " attacks " << target.GetName() << " with " << weapon.name << " for " << damage << " points" << "\n";
+	}
 }
 
 
 
-
-/** 
+/**
  * Heal Function
  * Public method of Cleric that heals a target Character
  * @param target Pointer to the Character to be healed
@@ -85,9 +89,10 @@ void Cleric::Attack(Character * enemy) {
  *  3. Please print out the details of the attack in the following format
  *      <Character Name> heals <Target Name> for <heal amount> points
  */
-void Cleric::Heal(Character * target) {
-	if(target==nullptr) { return; } //TODO ERROR: Should an error be logged here?
+void Cleric::Heal(Character& target) {
 	const int points = rounding(10 + (willpower/2.),RoundingEvent::Player);
-	target->TakeDamage(points);
-	std::cout<< GetName() << " heals " << target->GetName() << " for " << points << " points" << "\n";
-}	
+	target.TakeDamage(-points);
+	if(verbose>=Verbosity::Info) {
+		std::cout<< GetName() << " heals " << target.GetName() << " for " << points << " points" << "\n";
+	}
+}

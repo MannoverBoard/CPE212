@@ -33,7 +33,7 @@ private:
 public:
     Inventory();
     void AddToInventory(Item i);
-    void ShowInventory();
+    void ShowInventory() const;
 };
 
 #endif
