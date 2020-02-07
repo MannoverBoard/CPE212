@@ -13,7 +13,7 @@ struct Node
     Node(const Type &data)
     {
         localData = data;
-        nextItem = NULL;
+        nextItem = nullptr;
     }
 };
 
@@ -22,18 +22,24 @@ template<typename Type>
 class List
 {
 private:
-    Node<Type> *_firstNode;
-    Node<Type> *_lastNode;
+    Node<Type> *_firstNode{nullptr};
+    Node<Type> *_lastNode{nullptr};
 
-    mutable Node<Type> *_iteratorNode;
+    //this is horrible, what if this thing was used in a multi-threaded
+    //environment! this is no good.
+    // Also if a class instance wants to iterate while iterating it will never finish!
+    // this is double no good.
+    mutable Node<Type> *_iteratorNode{nullptr};
 
-    unsigned int _count;
-
-
+    unsigned int _count{0};
 public:
     List();
     ~List();
+    //<MEGA RANT>
+    // THIS guy does not follow rule of None/3/5
+    //</MEGA RANT>
 
+    //THIS INTERFACE DOESN'T PROVIDE FINDING. UGH what use is this class?
     void AppendItem(const Type &data);
     bool DeleteItem(const Type &data);
     unsigned int Count() const;
@@ -47,6 +53,7 @@ public:
     bool AtEnd() const;
     void ResetIterator() const;
 };
+
 
 #include "list_impl.hpp"
 
