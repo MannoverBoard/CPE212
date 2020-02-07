@@ -5,6 +5,9 @@
 
 #include <string>
 
+///#define CONSTANTS ARE HORRIBLE, they pollute the GLOBAL namespace
+// in addition, they aren't even used in this file. UGH!
+// so much rage
 #define PROJECTS_WEIGHT .25f
 #define EXAM_WEIGHT .4f
 #define FINAL_EXAM_WEIGHT .35f
@@ -44,7 +47,7 @@ public:
 
     bool operator==(const Student &otherStudent);
     bool operator!=(const Student &otherStudent);
-    
+
     // provided
     void PrintData() const;
 

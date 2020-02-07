@@ -32,7 +32,6 @@ float Student::CalculateFinalAverage() const
     float hwAVG = project_grades_average();
     float examAvg = exam_grades_average();
     float finalExamAvg = _finalExamGrade;
-
     return hwAVG * PROJECTS_WEIGHT + examAvg * EXAM_WEIGHT + finalExamAvg * FINAL_EXAM_WEIGHT;
 }
 
@@ -136,6 +135,7 @@ void Student::PrintData() const
 
 bool Student::operator!=(const Student &otherStudent)
 {
+  //why not call !((*this)==otherStudent); and prevent copy-pasta errors. ugh
     return otherStudent.GetID() != this->_studentID;
 }
 
