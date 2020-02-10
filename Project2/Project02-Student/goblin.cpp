@@ -46,7 +46,7 @@ Goblin::Goblin(string characterName, Race characterRace) :
  */
 
 void Goblin::Attack(Character * target) {
-    //if(target==nullptr) {return;};
+    if(target==nullptr) {return;}
     const int damage = GetWeapon().damage + attack/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -64,7 +64,7 @@ void Goblin::Attack(Character * target) {
  *      <Character Name> Sneak Attacks <Target Name> for <damage amount> points
  */
 void Goblin::SneakAttack(Character * target) {
-    //if(target==nullptr) {return;};   // cool kids check pointers
+    if(target==nullptr) {return;}   // cool kids check pointers
     const int damage = 20 + attack/2 + GetWeapon().damage;
     target->TakeDamage(damage);
     cout << GetName() << " Sneak Attacks " << target->GetName() << " for " <<
@@ -81,11 +81,6 @@ void Goblin::SneakAttack(Character * target) {
  */
 
 void Goblin::Status() {
-    cout << "Name: "      << GetName()                  << '\n';
-    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "    << GetWeapon().name           << '\n';
-    cout << "Health: "    << GetHealth()                << '\n';
-    cout << "Level: "     << GetLevel()                 << '\n';
-    cout << "Exp: "       << GetExp()                   << '\n';
+    Character::Status();
     cout << "Attack: "    << attack                     << '\n';
 }

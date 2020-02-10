@@ -43,7 +43,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Rogue::Attack(Character * target) {
-    //if(target==nullptr) {return;};  
+    if(target==nullptr) {return;}
     const int damage = GetWeapon().damage + dexterity/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -59,7 +59,7 @@ void Rogue::Attack(Character * target) {
  *      <Character Name> Back Stabs <Target Name> for <damage amount> points
  */
 void Rogue::BackStab(Character * target) {
-    //if(target==nullptr) {return;};  
+    if(target==nullptr) {return;}  
     const int damage = GetWeapon().damage + 50 + dexterity/2;
     target->TakeDamage(damage);
     cout << GetName() << " Back Stabs " << target->GetName() << " for " <<
@@ -73,11 +73,6 @@ void Rogue::BackStab(Character * target) {
  *      "Luck: 7"
  */
 void Rogue::Status() {
-    cout << "Name: "         << GetName()                  << '\n';
-    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "       << GetWeapon().name           << '\n';
-    cout << "Health: "       << GetHealth()                << '\n';
-    cout << "Level: "        << GetLevel()                 << '\n';
-    cout << "Exp: "          << GetExp()                   << '\n';
+    Character::Status();
     cout << "Dexterity: "    << dexterity                  << '\n';
 }

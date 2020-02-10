@@ -43,7 +43,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Warrior::Attack(Character * target) {
-    //if(target==nullptr) {return;};
+    if(target==nullptr) {return;}
     const int damage = GetWeapon().damage + strength/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -59,8 +59,8 @@ void Warrior::Attack(Character * target) {
  *      <Character Name> Power Attacks <Target Name> for <damage amount> points
  */
 void Warrior::PowerAttack(Character * target) {
-    //if(target==nullptr) {return;};  // cool kids check pointers
-    const int damage = (*target).GetHealth()/100 * (GetWeapon().damage + strength/2);
+    if(target==nullptr) {return;}  // cool kids check pointers
+    const int damage = this->GetHealth()/100 * (GetWeapon().damage + strength/2);
     target->TakeDamage(damage);
     cout << GetName() << " Power Attacks " << target->GetName() << " for " <<
         damage << " points!\n";
@@ -74,11 +74,6 @@ void Warrior::PowerAttack(Character * target) {
  */
 
 void Warrior::Status() {
-    cout << "Name: "      << GetName()                  << '\n';
-    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "    << GetWeapon().name           << '\n';
-    cout << "Health: "    << GetHealth()                << '\n';
-    cout << "Level: "     << GetLevel()                 << '\n';
-    cout << "Exp: "       << GetExp()                   << '\n';
+    Character::Status();
     cout << "Strength: "  << strength                   << '\n';
 }

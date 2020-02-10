@@ -41,7 +41,7 @@ Character(characterName, characterRace), Inventory()
  *      <Character Name> attacks <Enemy Name> with <Character's Weapon Name> for <damage> points
  */
 void Mage::Attack(Character * target) {
-    //if(target==nullptr) {return;};
+    if(target==nullptr) {return;};
     const int damage = GetWeapon().damage + intelligence/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " for " <<
@@ -57,7 +57,7 @@ void Mage::Attack(Character * target) {
  *      <Character Name> attacks <Enemy Name> with a Fireball for <damage> points
  */
 void Mage::Fireball(Character * target) {
-    //if(target==nullptr) {return;};
+    if(target==nullptr) {return;};
     const int damage = 10 + GetWeapon().damage + intelligence/2;
     target->TakeDamage(damage);
     cout << GetName() << " attacks " << target->GetName() << " with a Fireball for " <<
@@ -72,11 +72,6 @@ void Mage::Fireball(Character * target) {
  *      "Luck: 7"
  */
 void Mage::Status() {
-    cout << "Name: "         << GetName()                  << '\n';
-    cout << "Race: "         << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "       << GetWeapon().name           << '\n';
-    cout << "Health: "       << GetHealth()                << '\n';
-    cout << "Level: "        << GetLevel()                 << '\n';
-    cout << "Exp: "          << GetExp()                   << '\n';
+    Character::Status();
     cout << "Intelligence: " << intelligence               << '\n';
 }
