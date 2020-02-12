@@ -29,9 +29,13 @@ int main() {
     int     i = 5,      j = 6,      k;
     long    l = 10,     m = 5,      n;
 
-    k = GetMax<int> (i,j);
-    n = GetMax<long>(l,m);
-    
+    //k = GetMax<int> (i,j);
+    //n = GetMax<long>(l,m);
+    k = GetMax(i,j);
+    n = GetMax(l,m);
+    // using brackets is unecessary as compiler automatically
+    // chooses what type to cast result as.
+
     std::cout << k << std::endl;
     std::cout << n << std::endl;
 }
