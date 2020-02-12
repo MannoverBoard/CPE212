@@ -25,10 +25,34 @@ T GetMax (T a, T b) {
     return (result);
 }
 
+// template that allows function to take mixed datatypes
 template <class T, class U>
 T GetMin (T a, U b) {
     return (a<b ? a:b);
 }
+
+// Class template allowing class members to mix datatypes
+template <class T>
+class Keene {
+    private:
+        T savings;
+        T checking;
+        T focus;
+        T health;
+
+    public:
+        // Setters
+        T   setSavings  ();
+        T   setChecking ();
+        T   setFocus    ();
+
+        // Getters
+        T   getHealth   (T h);
+        T   getChecking    ();
+        T   getSavings     ();
+        T   getFocus       ();
+
+};
 
 int main() {
     int     i = 5,      j = 6,      k;
