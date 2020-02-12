@@ -49,12 +49,7 @@ Cleric::Cleric(string characterName, Race characterRace) :
  *      "Luck: 7"
  */
 void Cleric::Status() {
-    cout << "Name: "      << GetName()                  << '\n';
-    cout << "Race: "      << RaceStrings[GetRace()]     << '\n';
-    cout << "Weapon: "    << GetWeapon().name           << '\n';
-    cout << "Health: "    << GetHealth()                << '\n';
-    cout << "Level: "     << GetLevel()                 << '\n';
-    cout << "Exp: "       << GetExp()                   << '\n';
+    Character::Status();
     cout << "Willpower: " << willpower                  << '\n';
 }
 
