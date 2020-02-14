@@ -42,9 +42,10 @@ class Keene {
 
     public:
         // Setters
-        T   setSavings  ();
-        T   setChecking ();
-        T   setFocus    ();
+        Keene(T t);
+        T   setSavings   ();
+        T   setChecking  ();
+        T   setFocus     ();
 
         // Getters
         T   getHealth   (T h);
@@ -53,6 +54,8 @@ class Keene {
         T   getFocus       ();
 
 };
+
+
 
 int main() {
     int     i = 5,      j = 6,      k;
@@ -71,6 +74,8 @@ int main() {
     std::cout << n << "\n\n";
 
     z = GetMin(i,l);
+    z = GetMin<int,long>(i,l);
     std::cout << z << std::endl;
+
 }
 
