@@ -4,10 +4,10 @@ template<typename Type>
 List<Type>::List()
 {
     /// initialize the nodes correctly
-    *_firstNode     =   NULL;       // same as head
-    *_lastNode      =   NULL;       // same as tail
-    *_iteratorNode  =   NULL;
-    _count          =      0;       // equivalent to length of list
+    _firstNode     = nullptr;// same as head
+    _lastNode      = nullptr;// same as tail
+    _iteratorNode  = nullptr;
+    _count         =       0;// equivalent to length of list
 
 }
 
@@ -15,40 +15,33 @@ template<typename Type>
 List<Type>::~List()
 {
     /// delete all data within the list, be sure to account for memory leaks.
-    Type *tmpPtr;
-
-    while(_firstNode != NULL) {
-        tmpPtr      =   _firstNode;
-        _firstNode  =   _firstNode->nextItem;
-
+    Type *tmpPtr = _firstNode;
+    while(_firstNode) {
+        tmpPtr  = _firstNode->nextItem;
         delete tmpPtr;
+		_firstNode = tmpPtr;
     }
 }
 
 template<typename Type>
 void List<Type>::AppendItem(const Type &data)
 {
+	// append add stuff to end not the beginning
+	
     /// Append an item correctly into the list
     /// increment _count
     Type *tmpPtr;
-    tmpPtr = new Node;
-    if (_firstNode->nextItem == NULL) {
-        // if true then this is the first node
-        _firstNode              =       tmpPtr;
-        _firstNode->localData   =       data  ;
-        
-        _lastNode               =       _firstNode;
-        
-        _count++;
+    tmpPtr = new Node(data);
+	_count++;
+    if (_lastNode) {
+		//list is non-empty
+		_lastNode->nextItem = tmpPtr;
+		_lastNode=tmpPtr;
     }
-
     else {
-        tmpPtr->nextItem        =       _firstNode;
-        tmpPtr->localData       =       data      ;
-        _firstNode              =       tmpPtr    ;
-        
-        _count++;
-
+		// if true then this is the first node
+		_firstNode = tmpPtr;
+		_lastNode  = _firstNode;
     }
 }
 
