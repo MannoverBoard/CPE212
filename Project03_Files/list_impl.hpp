@@ -4,12 +4,25 @@ template<typename Type>
 List<Type>::List()
 {
     /// initialize the nodes correctly
+    *_firstNode     =   NULL;       // same as head
+    *_lastNode      =   NULL;       // same as tail
+    *_iteratorNode  =   NULL;
+    _count          =      0;       // equivalent to length of list
+
 }
 
 template<typename Type>
 List<Type>::~List()
 {
     /// delete all data within the list, be sure to account for memory leaks.
+    Type *tmpPtr;
+
+    while(_firstNode != NULL) {
+        tmpPtr      =   _firstNode;
+        _firstNode  =   _firstNode->nextItem;
+
+        delete tmpPtr;
+    }
 }
 
 template<typename Type>
@@ -17,6 +30,26 @@ void List<Type>::AppendItem(const Type &data)
 {
     /// Append an item correctly into the list
     /// increment _count
+    Type *tmpPtr;
+    tmpPtr = new Node;
+    if (_firstNode->nextItem == NULL) {
+        // if true then this is the first node
+        _firstNode              =       tmpPtr;
+        _firstNode->localData   =       data  ;
+        
+        _lastNode               =       _firstNode;
+        
+        _count++;
+    }
+
+    else {
+        tmpPtr->nextItem        =       _firstNode;
+        tmpPtr->localData       =       data      ;
+        _firstNode              =       tmpPtr    ;
+        
+        _count++;
+
+    }
 }
 
 template<typename Type>
@@ -33,6 +66,7 @@ template<typename Type>
 unsigned int List<Type>::Count() const
 {
     /// returns the size from _count.
+    return _count;
 }
 
 template<typename Type>
