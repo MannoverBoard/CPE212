@@ -37,8 +37,8 @@ void List<Type>::AppendItem(const Type &data)
         _lastNode        =       _firstNode;    // first node also is the last node added
     }
     else {
-        _lastNode->nextItem     =    tmpPtr; // new node is now linked to last node in list
-        _lastNode            =       tmpPtr; // last node is now the newest node
+        _lastNode->nextItem    =    tmpPtr; // new node is now linked to last node in list
+        _lastNode              =    tmpPtr; // last node is now the newest node
     }
 }
 
