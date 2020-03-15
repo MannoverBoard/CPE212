@@ -92,6 +92,7 @@ void Character::AddToInventory(Item &i){
     /**
      * Add the item to the inventory
      */
+    inventory.Add(i);
 }
 
 bool Character::operator!=(const Character &otherCharacter)
@@ -100,6 +101,7 @@ bool Character::operator!=(const Character &otherCharacter)
      * Implement the operator overload for this operator.
      * Use the uid value
      */
+    return (uid != otherCharacter.uid);
 }
 
 bool Character::operator==(const Character &otherCharacter)
@@ -108,6 +110,8 @@ bool Character::operator==(const Character &otherCharacter)
      * Implement the operator overload for this operator.
      * Use the uid value
      */
+    return (uid == otherCharacter.uid) ;
+
 }
 
 bool Character::operator<(const Character &otherCharacter)
@@ -116,6 +120,7 @@ bool Character::operator<(const Character &otherCharacter)
      * Implement the operator overload for this operator.
      * Use the uid value
      */
+    return (uid < otherCharacter.uid) ;
 }
 
 bool Character::operator>(const Character &otherCharacter)
@@ -124,6 +129,7 @@ bool Character::operator>(const Character &otherCharacter)
      * Implement the operator overload for this operator.
      * Use the uid value
      */
+    return (uid > otherCharacter.uid) ;
 }
 
 void Character::LootTarget(Character *target)

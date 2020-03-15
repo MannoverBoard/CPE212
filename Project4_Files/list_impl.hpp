@@ -110,7 +110,8 @@ bool List<Type>::DeleteItem(const Type &data)
 
                 _firstNode          =       currLoc           ;
 
-                return true;
+                _count--    ;
+                return true ;
             }
             // last node is being deleted
             // ---------------------------------------------------
@@ -118,16 +119,18 @@ bool List<Type>::DeleteItem(const Type &data)
                 prevLoc->nextItem   =       NULL              ;
                 _lastNode           =       prevLoc           ;
 
-                delete currLoc;
-                return true;
+                delete currLoc ;
+                _count--       ;
+                return true    ;
             }
             // node somewhere in the middle is being deleted
             // ---------------------------------------------------
             else {
                 prevLoc->nextItem   =       currLoc->nextItem ;
 
-                delete currLoc;
-                return true;
+                delete currLoc ;
+                _count--       ;
+                return true    ;
             }
         }
         // Advance pointers
@@ -245,9 +248,9 @@ Type List<Type>::PopFront()
     info            =       tmp->localData       ;      // store data from first node in info
     _firstNode      =       _firstNode->nextItem ;      // designate 2nd node as first
 
-    delete tmp;     // delete old first node
-
-    return info;    // return the data from the top of the list
+    delete tmp  ;     // delete old first node
+    _count--    ;
+    return info ;    // return the data from the top of the list
     
 }
 

@@ -5,6 +5,7 @@ void Inventory::Add(const Item &i)
     /**
      * Add the item to the inventory
      */
+    contents.AddItemSorted(i);
 }
 
 bool Inventory::Remove(const Item &i)
