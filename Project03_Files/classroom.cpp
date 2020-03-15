@@ -1,14 +1,11 @@
 #include "classroom.hpp"
 
-///
+
 Classroom::Classroom()
 {
 
 }
 
-// DO NOT MODIFY THIS CODE
-// DO NOT MODIFY THIS CODE
-// DO NOT MODIFY THIS CODE
 Student* Classroom::find_student(unsigned int UID, bool &found)
 {
     _classList.ResetIterator();
@@ -24,9 +21,94 @@ Student* Classroom::find_student(unsigned int UID, bool &found)
     found = false;
 }
 
-// DO NOT MODIFY THIS CODE
-// DO NOT MODIFY THIS CODE
-// DO NOT MODIFY THIS CODE
+
+bool Classroom::AddStudent(const std::string &firstName, const std::string &lastName, 
+                    unsigned int UID)
+{
+    bool found = false;
+    Student *another = find_student(UID, found);
+    if(found)
+    {
+        return false;
+    }
+
+    Student s(firstName, lastName, UID);  
+
+
+    _classList.AppendItem(s);
+    return true;
+}
+
+bool Classroom::RemoveStudent(unsigned int UID)
+{
+    bool found = false;
+    Student *s = find_student(UID, found);
+    if(!found)
+    {
+        return false;
+    }
+
+    return _classList.DeleteItem(*s);
+}
+
+void Classroom::AddProjects(const List<Assignment> &projects)
+{
+    projects.ResetIterator();
+    while(!projects.AtEnd())
+    {
+        bool found = false;
+        Assignment* p = projects.IterateItems();
+        Student *student = find_student(p->StudentUID, found);
+        if(found)
+        {
+            student->AddProject(p->Grade);
+        }
+        else
+        {
+            student->AddProject(0.0f);
+        }
+    }
+}
+
+void Classroom::AddExams(const List<Assignment> &projects)
+{
+    projects.ResetIterator();
+    while(!projects.AtEnd())
+    {
+        bool found = false;
+        Assignment *p = projects.IterateItems();
+        Student *student = find_student(p->StudentUID, found);
+        if(found)
+        {
+            student->AddExam(p->Grade);
+        }
+        else
+        {
+            student->AddExam(0.0f);
+        }
+    }
+}
+
+void Classroom::SetFinalExams(const List<Assignment> &projects)
+{
+    projects.ResetIterator();
+    while(!projects.AtEnd())
+    {
+        bool found = false;
+        Assignment *p = projects.IterateItems();
+        Student *student = find_student(p->StudentUID, found);
+        if(found)
+        {
+            student->SetFinalExam(p->Grade);
+        }
+        else
+        {
+            student->SetFinalExam(0.0f);
+        }
+    }
+}
+
+
 void Classroom::PrintClassroomInformation() const
 {
     _classList.ResetIterator();
@@ -37,34 +119,3 @@ void Classroom::PrintClassroomInformation() const
         std::cout << std::endl;
     }
 }
-
-/// modify code below this line
-// ========================================
-bool Classroom::AddStudent(const std::string &firstName, const std::string &lastName, unsigned int UID)
-{
-    /// adds the item to the list.
-    /// does not add a student that already exists, based on the UID
-    /// returns true if the student was successfully added
-}
-
-bool Classroom::RemoveStudent(unsigned int UID)
-{
-    /// removes the student from the list based on UID.
-    /// returns true if the student was successfully removed
-}
-
-void Classroom::AddProjects(const List<Assignment> &projects)
-{
-    /// adds the projects to the required student's list of projects
-}
-
-void Classroom::AddExams(const List<Assignment> &projects)
-{
-    /// adds the exams to the required student's list of exams
-}
-
-void Classroom::SetFinalExams(const List<Assignment> &projects)
-{
-    /// sets the required student's FinalExam score.
-}
-

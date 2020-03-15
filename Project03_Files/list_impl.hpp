@@ -3,9 +3,9 @@
 template<typename Type>
 List<Type>::List()
 {
-    _firstNode      =   nullptr;
-    _lastNode       =   nullptr;
-    _iteratorNode   =   nullptr;
+    _firstNode      =      NULL;
+    _lastNode       =      NULL;
+    _iteratorNode   =      NULL;
     _count          =         0;
 }
 
@@ -13,12 +13,12 @@ template<typename Type>
 List<Type>::~List()
 {
     /// delete all data within the list, be sure to account for memory leaks.
-    Node<Type> *tmpPtr   =   nullptr    ;      // set it to point to the location of first node
+    Node<Type> *tmpPtr   =   NULL    ;               // set it to point to the location of first node
 
-    while(_firstNode) {                  // while first node is not at end of list
+    while(_firstNode) {                              // while first node is not at end of list
         tmpPtr      =   _firstNode->nextItem;        // set first node to next node in list
         delete _firstNode; 
-        _firstNode  =   tmpPtr; // delete data at original first node
+        _firstNode  =   tmpPtr;                      // delete data at original first node
     }
 }
 
@@ -31,7 +31,7 @@ void List<Type>::AppendItem(const Type &data)
     Node<Type> *tmpPtr   =   new Node<Type>(data);    // make a new Node
     _count++;
 
-    if (_lastNode == nullptr) {                     // if true then this is the first node
+    if (_lastNode == NULL) {                    // if true then this is the first node
 
         _firstNode       =       tmpPtr;        // make new node the first node in list
         _lastNode        =       _firstNode;    // first node also is the last node added
@@ -50,10 +50,8 @@ bool List<Type>::DeleteItem(const Type &data)
     /// return false if the item was not removed
     /// return true if the item was removed.
     /// decrement _count if the item was removed.
-
-    Node<Type> *CurrentLoc  =   _firstNode->nextItem             ;
+    Node<Type> *CurrentLoc  =   _firstNode->nextItem   ;
     Node<Type> *PrevLoc     =   _firstNode             ;
-
         /*
                                first    Current                         last
                                ------    ------    ------    ------    ------
@@ -61,34 +59,36 @@ bool List<Type>::DeleteItem(const Type &data)
                                |next| -> |next| -> |next| -> |next| -> |next|
                                ------    ------    ------    ------    ------
         */
-    // is list empty?
-    if (_firstNode == nullptr) {return false;}
+    
 
     if (PrevLoc->localData == data){        // check to first node to see if it should be deleted
         _firstNode  =  CurrentLoc;          // first node is moved to next node in list
         delete            PrevLoc;          // delete node containing data we want to remove
         _count--;                           // decrement item count
         return true;                        // item found, exit function
-    }
+    
 
 
-    while (CurrentLoc) {
-
-        if (CurrentLoc->localData == data) {
-
-            if (CurrentLoc == _lastNode) {                 // Don't want to leave dangling pointer to last node
-                _lastNode   =  PrevLoc;                    // last node is equal to PrevLoc
-            }
-
-            PrevLoc->nextItem = CurrentLoc->nextItem;       // PrevLoc next points to the node at CurrentLoc next
-            delete CurrentLoc;                              // delete CurrentLoc node
-            _count--;                                       // decrement item count
-            return true;                                    // item found, exit function
+    while (CurrentLoc->nextItem != NULL){
+        if (CurrentLoc->localData == data){
+            PrevLoc->nextItem = CurrentLoc->nextItem;
+            delete CurrentLoc;
+            _count--;
+            return true;
         }
+        PrevLoc = CurrentLoc;
+        CurrentLoc = CurrentLoc->nextItem;
     }
 
-    return false;           // item not found, return false
+    if (CurrentLoc->localData == data){
+        _lastNode = PrevLoc;
+        _lastNode->nextItem = NULL;
+        _count--;
+        delete CurrentLoc;
+        return true;
+    }
 
+    return false;
 }
 
 template<typename Type>
@@ -131,12 +131,10 @@ Type* List<Type>::IterateItems() const
 {
     /// provides a pointer to the current item at the _iterator pointer.
     /// moves the iterator pointer to the next item.
-    if (_firstNode == nullptr) {return;}                    // list is empty and there is no need to iterate
-    _iteratorNode         =    _firstNode             ;
-    Node<Type> *tmpPtr    =    _iteratorNode          ;
+    //if (_firstNode == NULL) { return; }                    // list is empty and there is no need to iterate
+    Node<Type> *tmpPtr     =   _iteratorNode          ;
     _iteratorNode         =    _iteratorNode->nextItem;
-
-    return tmpPtr;
+    return &tmpPtr->localData;
 
 }
 
@@ -144,7 +142,7 @@ template<typename Type>
 bool List<Type>::AtEnd() const
 {
     /// returns if your iterator pointer is at the end of the list
-    if (_iteratorNode == nullptr) {
+    if (_iteratorNode == NULL) {
         return true;
     }
 

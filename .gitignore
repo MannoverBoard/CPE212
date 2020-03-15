@@ -1,3 +1,17 @@
 *.swp
 *.o
 a.out
+*.txt
+Project4_Files/__MACOSX/._warrior.hpp
+Project4_Files/__MACOSX/._warrior.cpp
+Project4_Files/__MACOSX/._rogue.hpp
+Project4_Files/__MACOSX/._rogue.cpp
+Project4_Files/__MACOSX/._party.hpp
+Project4_Files/__MACOSX/._party.cpp
+Project4_Files/__MACOSX/._makefile
+Project4_Files/__MACOSX/._mage.hpp
+Project4_Files/__MACOSX/._mage.cpp
+Project4_Files/__MACOSX/._list_impl.hpp
+Project4_Files/__MACOSX/._item.cpp
+Project4_Files/__MACOSX/._item.h
+Project4_Files/__MACOSX/._list.hpp
