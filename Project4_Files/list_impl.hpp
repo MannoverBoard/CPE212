@@ -224,6 +224,17 @@ Type List<Type>::PopFront()
      * This will remove the item from the list and return its value to the caller.
      */
 
-    // TODO: write pop function definition
+    if (_firstNode == NULL) {return NULL;}
+
+    Type info;
+    Node<Type> *tmp;
+
+    tmp = _firstNode;
+    info = tmp->localData;
+    _firstNode = _firstNode->nextItem;
+    delete tmp;
+
+    return info;
+    
 }
 
