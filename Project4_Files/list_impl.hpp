@@ -189,12 +189,12 @@ Type* List<Type>::IterateItems() const
 
     // List is empty
     // -------------------------------------------------------------
-    if (_iteratorNode == NULL) {return temp;}
+    if (_iteratorNode == NULL) {return &temp->localData;}
 
     // return current location of iterator, advance iterator
     // -------------------------------------------------------------
     _iteratorNode = _iteratorNode->nextItem;
-    return temp;
+    return &temp->localData;
 }
 
 template<typename Type>
