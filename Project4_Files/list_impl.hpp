@@ -4,10 +4,10 @@ List<Type>::List()
     /**
      * Insert the content for the constructor
      */
-    _firstNode = NULL;
-    _lastNode = NULL;
-    _iteratorNode = NULL;
-    _count = 0;
+    _firstNode      =       NULL ;
+    _lastNode       =       NULL ;
+    _iteratorNode   =       NULL ;
+    _count          =       0    ;
 }
 
 template<typename Type>
@@ -24,20 +24,20 @@ void List<Type>::AddItemSorted(const Type &data)
     /**
      * Insert the items in the list in ascending order
      */
-    Node<Type> *newNode;
-    Node<Type> *prevLoc;
-    Node<Type> *currLoc;
-    bool moreToSearch;
-
-    prevLoc = NULL;
-    currLoc = _firstNode;
+    Node<Type> *newNode            ;
+    Node<Type> *prevLoc            ;
+    Node<Type> *currLoc            ;
+    bool        moreToSearch       ;
+ 
+    prevLoc     =       NULL       ;
+    currLoc     =       _firstNode ;
 
     if (_firstNode == NULL) {
-        newNode = new Node<Type>;
-        newNode->localData = data;
-        newNode->nextItem = NULL;
-        _firstNode = newNode;
-        _lastNode = newNode;
+        newNode                 =       new Node<Type> ;
+        newNode->localData      =       data           ;
+        newNode->nextItem       =       NULL           ;
+        _firstNode              =       newNode        ;
+        _lastNode               =       newNode        ;
         _count++;
     }
 
@@ -48,33 +48,33 @@ void List<Type>::AddItemSorted(const Type &data)
     while (moreToSearch)
     {
         if (data > currLoc->localData) {
-            prevLoc = currLoc;
-            currLoc = currLoc->nextItem;
-            moreToSearch = (currLoc != NULL);
-        }
-
-        if (data < currLoc->localData) {
-            moreToSearch = false;
+            prevLoc             =       currLoc           ;
+            currLoc             =       currLoc->nextItem ;
+            moreToSearch        =       (currLoc != NULL) ;
+        } 
+ 
+        if (data < currLoc->localData) { 
+            moreToSearch        =       false             ;
         }
     }
 
     //Prep node for insertion
     // -----------------------------------------------------
-    newNode = new Node<Type>;
-    newNode->localData = data;
+    newNode                     =       new Node<Type> ;
+    newNode->localData          =       data           ;
 
     // Insert node
     // -----------------------------------------------------
     if (currLoc = NULL) {
-        newNode->nextItem = NULL;
-        prevLoc->nextItem = newNode;
-        _lastNode = newNode;
+        newNode->nextItem       =       NULL    ;
+        prevLoc->nextItem       =       newNode ;
+        _lastNode               =       newNode ;
         _count++;
     }
 
     else {
-        newNode->nextItem = currLoc;
-        prevLoc->nextItem = newNode;
+        newNode->nextItem       =       currLoc ;
+        prevLoc->nextItem       =       newNode ;
         _count++;
     }
 
@@ -86,12 +86,12 @@ bool List<Type>::DeleteItem(const Type &data)
     /**
      * Deletes a provided item from the list
      */
-    Node<Type> *currLoc;
-    Node<Type> *prevLoc;
-    bool itemRemoved;
+    Node<Type>          *currLoc    ;
+    Node<Type>          *prevLoc    ;
+    bool                itemRemoved ;
 
-    currLoc = _firstNode;
-    prevLoc = NULL;
+    currLoc     =       _firstNode  ;
+    prevLoc     =       NULL        ;
 
     // List is empty
     // --------------------------------------------------------
@@ -103,32 +103,37 @@ bool List<Type>::DeleteItem(const Type &data)
             // first node is being deleted
             // ---------------------------------------------------
             if (currLoc == _firstNode) {
-                prevLoc = currLoc;
-                currLoc = currLoc->nextItem;
-                delete prevLoc;
-                _firstNode = currLoc;
+                prevLoc             =       currLoc           ;
+                currLoc             =       currLoc->nextItem ;
+
+                delete prevLoc; 
+
+                _firstNode          =       currLoc           ;
+
                 return true;
             }
             // last node is being deleted
             // ---------------------------------------------------
             if (currLoc == _lastNode) {
-                prevLoc->nextItem = NULL;
-                _lastNode = prevLoc;
+                prevLoc->nextItem   =       NULL              ;
+                _lastNode           =       prevLoc           ;
+
                 delete currLoc;
                 return true;
             }
             // node somewhere in the middle is being deleted
             // ---------------------------------------------------
             else {
-                prevLoc->nextItem = currLoc->nextItem;
+                prevLoc->nextItem   =       currLoc->nextItem ;
+
                 delete currLoc;
                 return true;
             }
         }
         // Advance pointers
         // ----------------------------------------------------
-        prevLoc = currLoc;
-        currLoc = currLoc->nextItem;
+        prevLoc                     =       currLoc           ;
+        currLoc                     =       currLoc->nextItem ;
     }
 }
 
@@ -184,17 +189,18 @@ Type* List<Type>::IterateItems() const
      * Provides a pointer to the current item at the _iterator pointer.
      * It moves the iterator pointer to the next item in the list.
      */
-    Node<Type> *temp;
-    temp = _iteratorNode;
+    Node<Type>          *temp         ;         // create a temporary pointer
+    temp        =       _iteratorNode ;         // set temp pointer to point to iterator pointer
 
     // List is empty
     // -------------------------------------------------------------
-    if (_iteratorNode == NULL) {return &temp->localData;}
+    if (_iteratorNode == NULL) {return &temp->localData;}       // iterator at end of the list
 
     // return current location of iterator, advance iterator
     // -------------------------------------------------------------
-    _iteratorNode = _iteratorNode->nextItem;
-    return &temp->localData;
+    _iteratorNode = _iteratorNode->nextItem;                    // advance the iterator pointer
+
+    return &temp->localData;                                    // return data from previous location of iterator
 }
 
 template<typename Type>
@@ -203,7 +209,13 @@ bool List<Type>::AtEnd() const
     /**
      * Returns if the iterator pointer is at the end of the list
      */
+    
+    // Iterator is at end of list
+    // ------------------------------------------------------
     if (_iteratorNode == NULL) {return true;}
+
+    // Iterator not at end of list
+    // ------------------------------------------------------
     else {return false;}
 }
 
@@ -226,15 +238,16 @@ Type List<Type>::PopFront()
 
     if (_firstNode == NULL) {return NULL;}
 
-    Type info;
-    Node<Type> *tmp;
+    Type info;      // create a variable to store the data from the first node
+    Node<Type>              *tmp                 ;      // create a temporary node pointer
 
-    tmp = _firstNode;
-    info = tmp->localData;
-    _firstNode = _firstNode->nextItem;
-    delete tmp;
+    tmp             =       _firstNode           ;      // point temp at first node
+    info            =       tmp->localData       ;      // store data from first node in info
+    _firstNode      =       _firstNode->nextItem ;      // designate 2nd node as first
 
-    return info;
+    delete tmp;     // delete old first node
+
+    return info;    // return the data from the top of the list
     
 }
 
